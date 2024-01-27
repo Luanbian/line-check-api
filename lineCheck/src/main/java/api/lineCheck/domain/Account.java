@@ -1,12 +1,14 @@
 package api.lineCheck.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.UUID;
 @Data
+@Entity(name = "Account")
+@Table(name = "Accounts")
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor()
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
