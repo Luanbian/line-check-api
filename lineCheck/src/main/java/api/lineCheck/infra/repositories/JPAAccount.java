@@ -2,13 +2,15 @@ package api.lineCheck.infra.repositories;
 
 import api.lineCheck.domain.Account;
 import api.lineCheck.infra.interfaces.AccountJPArepositories;
-import api.lineCheck.infra.interfaces.ICreateRepository;
+import api.lineCheck.infra.interfaces.IRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-public class JPACreateAccount implements ICreateRepository<Account> {
+@Repository
+public class JPAAccount implements IRepository<Account> {
     private final AccountJPArepositories JPARepository;
     @Autowired
-    public JPACreateAccount(AccountJPArepositories JPARepository) {
+    public JPAAccount(AccountJPArepositories JPARepository) {
         this.JPARepository = JPARepository;
     }
     @Override

@@ -1,5 +1,5 @@
 package api.lineCheck.infra.interfaces;
 
-public interface ICreateRepository<T> {
+public interface IRepository<T> {
     void create(T data);
 }
