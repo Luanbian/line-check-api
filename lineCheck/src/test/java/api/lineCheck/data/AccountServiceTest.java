@@ -4,6 +4,7 @@ import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.usecase.AccountService;
 import api.lineCheck.domain.Account;
 import api.lineCheck.infra.repositories.JPAAccount;
+import api.lineCheck.mocks.AccountDtoMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,27 +22,18 @@ public class AccountServiceTest {
 
     @Test
     public void should_be_able_to_register_account_with_correct_params() {
-        AccountDto dto = new AccountDto(
-                "fake_name",
-                "fake.user@email.com",
-                "159191919",
-                "1234"
-        );
+        AccountDtoMock dtoMock = new AccountDtoMock();
+        AccountDto dto = dtoMock.main();
         Account result = sut.register(dto);
         assertNotNull(result);
-        assertEquals("fake_name", result.getName());
-        assertEquals("fake.user@email.com", result.getEmail());
-        assertEquals("159191919", result.getPhone());
-        assertEquals("1234", result.getPassword());
+        assertEquals(dto.name(), result.getName());
+        assertEquals(dto.email(), result.getEmail());
+        assertEquals(dto.phone(), result.getPhone());
+        assertEquals(dto.password(), result.getPassword());
     }
     @Test void should_call_repository_with_correct_values () {
-        AccountDto dto = new AccountDto(
-                "fake_name",
-                "fake.user@email.com",
-                "159191919",
-                "1234"
-        );
-        Account result = sut.register(dto);
+        AccountDtoMock dtoMock = new AccountDtoMock();
+        Account result = sut.register(dtoMock.main());
         verify(repository, times(1)).create(result);
     }
 }
