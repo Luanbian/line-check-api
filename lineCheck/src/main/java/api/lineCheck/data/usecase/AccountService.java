@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService implements IAccountService {
     private final JPAAccount repository;
-
     @Autowired
     public AccountService(JPAAccount repository) {
         this.repository = repository;

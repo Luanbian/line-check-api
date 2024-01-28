@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTest {
     @InjectMocks
@@ -31,5 +33,15 @@ public class AccountServiceTest {
         assertEquals("fake.user@email.com", result.getEmail());
         assertEquals("159191919", result.getPhone());
         assertEquals("1234", result.getPassword());
+    }
+    @Test void should_call_repository_with_correct_values () {
+        AccountDto dto = new AccountDto(
+                "fake_name",
+                "fake.user@email.com",
+                "159191919",
+                "1234"
+        );
+        Account result = sut.register(dto);
+        verify(repository, times(1)).create(result);
     }
 }
