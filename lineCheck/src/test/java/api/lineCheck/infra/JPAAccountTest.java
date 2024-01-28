@@ -4,6 +4,7 @@ import api.lineCheck.domain.Account;
 import api.lineCheck.domain.AccountProps;
 import api.lineCheck.infra.interfaces.AccountJPArepositories;
 import api.lineCheck.infra.repositories.JPAAccount;
+import api.lineCheck.mocks.AccountPropsMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,10 +18,10 @@ public class JPAAccountTest {
     public JPAAccount sut;
     @Mock
     public AccountJPArepositories JPARepository;
+    public AccountPropsMock propsMock = new AccountPropsMock();
     @Test
     public void should_be_able_to_save_account_in_database() {
-        AccountProps props = new AccountProps("fake_name", "fake_email", "15999", "123");
-        Account account = Account.create(props);
+        Account account = Account.create(propsMock.main());
         sut.create(account);
         verify(JPARepository, times(1)).saveAccount(account);
     }
