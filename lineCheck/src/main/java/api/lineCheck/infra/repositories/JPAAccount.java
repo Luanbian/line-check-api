@@ -19,22 +19,20 @@ public class JPAAccount implements IRepository<Account> {
     }
     @Override
     public void create(Account data) {
-        boolean emailAlreadyExists = this.EmailAlreadyExists(data.getEmail());
-        if (emailAlreadyExists) {
-            throw new EmailAlreadyExistsException();
-        }
-        boolean phoneAlreadyExists = this.PhoneAlreadyExists(data.getPhone());
-        if (phoneAlreadyExists) {
-            throw new PhoneAlreadyExistsException();
-        }
+        this.EmailAlreadyExists(data.getEmail());
+        this.PhoneAlreadyExists(data.getPhone());
         JPARepository.saveAccount(data);
     }
-    private boolean EmailAlreadyExists(String email) {
+    private void EmailAlreadyExists(String email) {
         List<Account> accounts = JPARepository.findByEmail(email);
-        return !accounts.isEmpty();
+        if (!accounts.isEmpty()) {
+            throw new EmailAlreadyExistsException();
+        }
     }
-    private boolean PhoneAlreadyExists(String phone) {
+    private void PhoneAlreadyExists(String phone) {
         List<Account> accounts = JPARepository.findByPhone(phone);
-        return accounts.isEmpty();
+        if (!accounts.isEmpty()) {
+            throw new PhoneAlreadyExistsException();
+        }
     }
 }
