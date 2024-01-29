@@ -51,4 +51,14 @@ public class AccountControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Telefone já cadastrado no sistema", response.getBody());
     }
+    @Test
+    public void should_fall_in_catch_if_service_throw() {
+        AccountDto dto = dtoMock.main();
+        doAnswer(invocation -> {
+            throw new Exception("Simulated");
+        }).when(service).register(dto);
+        ResponseEntity response = sut.create(dto);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Erro interno do servidor", response.getBody());
+    }
 }

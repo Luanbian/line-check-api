@@ -5,6 +5,7 @@ import api.lineCheck.data.usecase.AccountService;
 import api.lineCheck.domain.Account;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.mocks.AccountDtoMock;
+import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,8 +31,18 @@ public class AccountServiceTest {
         assertEquals(dto.phone(), result.getPhone());
         assertEquals(dto.password(), result.getPassword());
     }
-    @Test void should_call_repository_with_correct_values () {
+    @Test
+    public void should_call_repository_with_correct_values() {
         Account result = sut.register(dtoMock.main());
         verify(repository, times(1)).create(result);
+    }
+    @Test
+    public void should_throw_if_repository_throw_an_Exception() {
+        Account result = sut.register(dtoMock.main());
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(repository).create(result);
+        verify(repository, times(1)).create(result);
+        assertThrows(Exception.class, () -> sut.register(dtoMock.main()));
     }
 }

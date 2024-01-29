@@ -28,7 +28,7 @@ public class AccountController {
         } catch (EmailAlreadyExistsException | PhoneAlreadyExistsException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
-            return ResponseEntity.status(500).body("Erro interno do servidor");
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
     }
 }
