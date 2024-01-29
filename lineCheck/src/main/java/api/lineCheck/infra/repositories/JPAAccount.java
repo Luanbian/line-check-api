@@ -21,7 +21,7 @@ public class JPAAccount implements IRepository<Account> {
     public void create(Account data) {
         this.EmailAlreadyExists(data.getEmail());
         this.PhoneAlreadyExists(data.getPhone());
-        JPARepository.saveAccount(data);
+        JPARepository.save(data);
     }
     private void EmailAlreadyExists(String email) {
         List<Account> accounts = JPARepository.findByEmail(email);
