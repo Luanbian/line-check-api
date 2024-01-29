@@ -5,6 +5,7 @@ import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.Account;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class AccountController {
         this.service = service;
     }
     @PostMapping("/account")
-    public ResponseEntity create(@RequestBody AccountDto dto) {
+    public ResponseEntity create(@RequestBody @Valid AccountDto dto) {
         try {
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
