@@ -22,8 +22,10 @@ public class AccountController {
     }
     @PostMapping("/account")
     public ResponseEntity create(@RequestBody AccountDto dto) {
+        if (dto.name().isEmpty() || dto.email().isEmpty() || dto.phone().isEmpty() || dto.password().isEmpty()) {
+            return ResponseEntity.badRequest().body("Alguns campos obrigatórios estão vazios");
+        }
         try {
-            System.out.println(dto);
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
         } catch (EmailAlreadyExistsException | PhoneAlreadyExistsException ex) {
