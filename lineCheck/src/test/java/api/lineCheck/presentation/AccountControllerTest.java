@@ -61,11 +61,4 @@ public class AccountControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Erro interno do servidor", response.getBody());
     }
-    @Test
-    public void should_return_bad_request_if_required_fields_are_missing() {
-        AccountDto invalidDto = new AccountDto("","","","");
-        ResponseEntity response = sut.create(invalidDto);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Alguns campos obrigatórios estão vazios", response.getBody());
-    }
 }

@@ -7,6 +7,7 @@ import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,7 @@ public class AccountController {
         this.service = service;
     }
     @PostMapping("/account")
-    public ResponseEntity create(@RequestBody AccountDto dto) {
-        if (dto.name().isEmpty() || dto.email().isEmpty() || dto.phone().isEmpty() || dto.password().isEmpty()) {
-            return ResponseEntity.badRequest().body("Alguns campos obrigatórios estão vazios");
-        }
+    public ResponseEntity create(@Validated @RequestBody AccountDto dto) {
         try {
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
