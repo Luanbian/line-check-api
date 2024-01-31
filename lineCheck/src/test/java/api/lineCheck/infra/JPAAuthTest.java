@@ -22,14 +22,14 @@ public class JPAAuthTest {
     public AccountPropsMock propsMock = new AccountPropsMock();
     @Test
     public void should_find_account_by_credentials() {
-        Account findedAccount = Account.create(propsMock.main());
+        Account foundAccount = Account.create(propsMock.main());
         String email = propsMock.email;
         String password = propsMock.password;
         when(JPARepository.findByEmailAndPassword(email, password))
-                .thenReturn(findedAccount);
+                .thenReturn(foundAccount);
         Account account = sut.authByCredentials(email, password);
         assertNotNull(account);
-        assertEquals(account, findedAccount);
+        assertEquals(account, foundAccount);
     }
     @Test
     public void should_throw_invalid_credentials_exception_if_repository_return_null() {
