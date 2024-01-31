@@ -5,7 +5,9 @@ import api.lineCheck.infra.interfaces.AccountJPArepositories;
 import api.lineCheck.infra.interfaces.IAuthRepository;
 import api.lineCheck.presentation.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JPAAuth implements IAuthRepository {
     private final AccountJPArepositories JPARepository;
     @Autowired
