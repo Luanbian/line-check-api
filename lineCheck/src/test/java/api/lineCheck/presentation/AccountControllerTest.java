@@ -55,7 +55,7 @@ public class AccountControllerTest {
     public void should_fall_in_catch_if_service_throw() {
         AccountDto dto = dtoMock.main();
         doAnswer(invocation -> {
-            throw new Exception("Simulated");
+            throw new Exception();
         }).when(service).register(dto);
         ResponseEntity response = sut.create(dto);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
