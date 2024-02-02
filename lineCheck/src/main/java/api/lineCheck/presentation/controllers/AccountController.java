@@ -23,11 +23,7 @@ public class AccountController {
         this.service = service;
     }
     @PostMapping("/account")
-<<<<<<< HEAD
     public ResponseEntity create(@RequestBody @Valid AccountDto dto) {
-=======
-    public ResponseEntity create(@Validated @RequestBody AccountDto dto) {
->>>>>>> ffd3cf6d41a74f37063b1055779e4fb29abc350b
         try {
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
