@@ -10,7 +10,11 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
 @Service
 public class TokenService implements ITokenService {
     @Value("${api.security.token.secret}")
@@ -18,10 +22,11 @@ public class TokenService implements ITokenService {
     @Override
     public String generate(Account account) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
+        List<String> roles = Collections.singletonList(String.valueOf(account.getRole()));
         String token;
         token = JWT
                 .create()
-                .withClaim("userRole", Collections.singletonList(account.getRole()))
+                .withClaim("userRole", roles)
                 .withSubject(account.toString())
                 .sign(algorithm);
         return token;
