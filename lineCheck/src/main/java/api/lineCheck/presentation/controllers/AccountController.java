@@ -4,6 +4,7 @@ import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.Account;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
+import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class AccountController {
         try {
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
-        } catch (EmailAlreadyExistsException | PhoneAlreadyExistsException ex) {
+        } catch (EmailAlreadyExistsException | PhoneAlreadyExistsException | InvalidRoleException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");

@@ -6,7 +6,7 @@ import api.lineCheck.domain.Account;
 import api.lineCheck.domain.AccountProps;
 import api.lineCheck.domain.Role;
 import api.lineCheck.infra.repositories.JPAAccount;
-import api.lineCheck.presentation.exceptions.InvalidCredentialsException;
+import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class AccountService implements IAccountService {
         Role role = switch (data.role().toUpperCase()) {
             case "MANAGER" -> Role.MANAGER;
             case "DRIVER" -> Role.DRIVER;
-            default -> throw new InvalidCredentialsException();
+            default -> throw new InvalidRoleException();
         };
         AccountProps props = new AccountProps(
                 data.name(), data.email(), data.phone(), data.password(), role
