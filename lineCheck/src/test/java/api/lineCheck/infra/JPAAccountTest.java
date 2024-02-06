@@ -33,7 +33,7 @@ public class JPAAccountTest {
     public void should_throw_Email_Already_exists_exception() {
         String existingEmail = "existing@email.com";
         AccountProps props = propsMock.main();
-        props = new AccountProps(props.name(), existingEmail, props.phone(), props.password());
+        props = new AccountProps(props.name(), existingEmail, props.phone(), props.password(), props.role());
         Account data = Account.create(props);
         when(JPARepository.findByEmail(existingEmail))
                 .thenReturn(Collections.singletonList(Account.create(props)));
@@ -44,7 +44,7 @@ public class JPAAccountTest {
     public void should_throw_Phone_Already_exists_exception() {
         String existingPhone = "15999999999";
         AccountProps props = propsMock.main();
-        props = new AccountProps(props.name(), props.email(), existingPhone, props.password());
+        props = new AccountProps(props.name(), props.email(), existingPhone, props.password(), props.role());
         Account data = Account.create(props);
         when(JPARepository.findByPhone(existingPhone))
                 .thenReturn(Collections.singletonList(Account.create(props)));

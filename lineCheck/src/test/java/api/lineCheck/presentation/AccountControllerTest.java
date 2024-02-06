@@ -35,7 +35,7 @@ public class AccountControllerTest {
     public void should_fall_in_catch_if_email_already_exists() {
         String existingEmail = "existing@email.com";
         AccountDto dto = dtoMock.main();
-        dto = new AccountDto(dto.name(), existingEmail, dto.phone(), dto.password());
+        dto = new AccountDto(dto.name(), existingEmail, dto.phone(), dto.password(), dto.role());
         when(service.register(dto)).thenThrow(new EmailAlreadyExistsException());
         ResponseEntity response = sut.create(dto);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -45,7 +45,7 @@ public class AccountControllerTest {
     public void should_fall_in_catch_if_phone_already_exists() {
         String existingPhone = "existing@email.com";
         AccountDto dto = dtoMock.main();
-        dto = new AccountDto(dto.name(), dto.email(), existingPhone, dto.password());
+        dto = new AccountDto(dto.name(), dto.email(), existingPhone, dto.password(), dto.role());
         when(service.register(dto)).thenThrow(new PhoneAlreadyExistsException());
         ResponseEntity response = sut.create(dto);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
