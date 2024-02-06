@@ -4,4 +4,5 @@ import api.lineCheck.domain.Account;
 
 public interface ITokenService {
     String generate(Account account);
+    String verify(String token) throws Exception;
 }
