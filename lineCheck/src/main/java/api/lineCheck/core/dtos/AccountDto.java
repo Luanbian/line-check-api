@@ -1,6 +1,5 @@
 package api.lineCheck.core.dtos;
 
-import api.lineCheck.domain.Role;
 import jakarta.validation.constraints.*;
 
 public record AccountDto(
@@ -26,5 +25,5 @@ public record AccountDto(
         @NotNull(message = "A função não pode ser nula")
         @NotBlank(message = "A função não pode ser vazia")
         @NotEmpty()
-        Role role
+        String role
 ) {}

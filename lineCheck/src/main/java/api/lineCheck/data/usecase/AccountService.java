@@ -4,7 +4,9 @@ import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.Account;
 import api.lineCheck.domain.AccountProps;
+import api.lineCheck.domain.Role;
 import api.lineCheck.infra.repositories.JPAAccount;
+import api.lineCheck.presentation.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,13 @@ public class AccountService implements IAccountService {
     }
     @Override
     public Account register(AccountDto data) {
+        Role role = switch (data.role().toUpperCase()) {
+            case "MANAGER" -> Role.MANAGER;
+            case "DRIVER" -> Role.DRIVER;
+            default -> throw new InvalidCredentialsException();
+        };
         AccountProps props = new AccountProps(
-                data.name(), data.email(), data.phone(), data.password(), data.role()
+                data.name(), data.email(), data.phone(), data.password(), role
         );
         Account account = Account.create(props);
         repository.create(account);
