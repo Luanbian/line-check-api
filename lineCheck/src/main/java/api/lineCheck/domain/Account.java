@@ -17,12 +17,14 @@ public class Account {
     private String email;
     private String phone;
     private String password;
+    private Role role;
 
     private Account (AccountProps props) {
         this.name = props.name();
         this.email = props.email();
         this.phone = props.phone();
         this.password = props.password();
+        this.role = props.role();
     }
 
     public static Account create (AccountProps props) {

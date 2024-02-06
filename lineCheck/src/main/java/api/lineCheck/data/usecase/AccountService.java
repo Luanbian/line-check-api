@@ -18,7 +18,7 @@ public class AccountService implements IAccountService {
     @Override
     public Account register(AccountDto data) {
         AccountProps props = new AccountProps(
-                data.name(), data.email(), data.phone(), data.password()
+                data.name(), data.email(), data.phone(), data.password(), data.role()
         );
         Account account = Account.create(props);
         repository.create(account);

@@ -4,5 +4,6 @@ public record AccountProps(
          String name,
          String email,
          String phone,
-         String password
+         String password,
+         Role role
 ) {}
