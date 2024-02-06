@@ -5,6 +5,7 @@ import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.mocks.AccountDtoMock;
 import api.lineCheck.presentation.controllers.AccountController;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
+import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +51,16 @@ public class AccountControllerTest {
         ResponseEntity response = sut.create(dto);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Telefone já cadastrado no sistema", response.getBody());
+    }
+    @Test
+    public void should_fall_in_catch_if_role_was_invalid() {
+        String invalidRole = "invalid_role";
+        AccountDto dto = dtoMock.main();
+        dto = new AccountDto(dto.name(), dto.email(), dto.phone(), dto.password(), invalidRole);
+        when(service.register(dto)).thenThrow(new InvalidRoleException());
+        ResponseEntity response = sut.create(dto);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("A função escolhida não existe no sistema", response.getBody());
     }
     @Test
     public void should_fall_in_catch_if_service_throw() {
