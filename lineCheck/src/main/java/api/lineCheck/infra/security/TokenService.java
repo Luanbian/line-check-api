@@ -21,12 +21,11 @@ public class TokenService implements ITokenService {
     @Override
     public String generate(Account account) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
-        List<String> roles = Collections.singletonList(String.valueOf(account.getRole()));
         String token;
         token = JWT
                 .create()
-                .withClaim("userRole", roles)
-                .withSubject(account.toString())
+                .withIssuer("auth-api")
+                .withSubject(account.getEmail())
                 .sign(algorithm);
         return token;
     }
@@ -34,12 +33,12 @@ public class TokenService implements ITokenService {
     public String verify(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT decoded = verifier.verify(token);
-            List<String> userRoles = decoded.getClaim("userRole").asList(String.class);
-            String userRole;
-            userRole = userRoles.get(0);
-            return userRole;
+            return JWT
+                    .require(algorithm)
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
         } catch (JWTVerificationException exception) {
             throw new InvalidTokenException();
         }

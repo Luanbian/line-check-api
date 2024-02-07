@@ -25,12 +25,12 @@ public class TokenServiceTest {
         assertNotNull(token);
     }
     @Test
-    public void should_return_role_of_logged_user_if_success() {
+    public void should_return_email_of_logged_user_if_success() {
         Account account = Account.create(propsMock.main());
         ReflectionTestUtils.setField(sut, "secret", "secret_test");
         String token = sut.generate(account);
-        String userRole = sut.verify(token);
-        assertEquals(userRole, Role.DRIVER.toString());
+        String email = sut.verify(token);
+        assertEquals(email, account.getEmail());
     }
     @Test
     public void should_throw_InvalidTokenException_if_token_was_invalid() {

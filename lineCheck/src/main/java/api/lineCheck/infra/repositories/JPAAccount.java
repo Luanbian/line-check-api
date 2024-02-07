@@ -6,6 +6,7 @@ import api.lineCheck.infra.interfaces.IRepository;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class JPAAccount implements IRepository<Account> {
         JPARepository.save(data);
     }
     private void EmailAlreadyExists(String email) {
-        List<Account> accounts = JPARepository.findByEmail(email);
-        if (!accounts.isEmpty()) {
+        UserDetails accounts = JPARepository.findByEmail(email);
+        if (accounts != null) {
             throw new EmailAlreadyExistsException();
         }
     }

@@ -36,7 +36,7 @@ public class JPAAccountTest {
         props = new AccountProps(props.name(), existingEmail, props.phone(), props.password(), props.role());
         Account data = Account.create(props);
         when(JPARepository.findByEmail(existingEmail))
-                .thenReturn(Collections.singletonList(Account.create(props)));
+                .thenReturn(Account.create(props));
         assertThrows(EmailAlreadyExistsException.class, () -> sut.create(data));
         verify(JPARepository, never()).save(data);
     }

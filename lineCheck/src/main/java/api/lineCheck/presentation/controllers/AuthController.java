@@ -2,7 +2,6 @@ package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.AuthParams;
 import api.lineCheck.data.interfaces.IAuthService;
-import api.lineCheck.domain.Account;
 import api.lineCheck.presentation.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
