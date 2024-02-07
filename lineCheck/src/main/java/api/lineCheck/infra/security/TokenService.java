@@ -11,7 +11,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,8 +36,9 @@ public class TokenService implements ITokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decoded = verifier.verify(token);
+            List<String> userRoles = decoded.getClaim("userRole").asList(String.class);
             String userRole;
-            userRole = decoded.getClaim("userRole").asString();
+            userRole = userRoles.get(0);
             return userRole;
         } catch (JWTVerificationException exception) {
             throw new InvalidTokenException();

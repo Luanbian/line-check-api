@@ -1,14 +1,16 @@
 package api.lineCheck.infra;
 
 import api.lineCheck.domain.Account;
+import api.lineCheck.domain.Role;
 import api.lineCheck.infra.security.TokenService;
 import api.lineCheck.mocks.AccountPropsMock;
-import static org.junit.jupiter.api.Assertions.*;
+import api.lineCheck.presentation.exceptions.InvalidTokenException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenServiceTest {
@@ -21,5 +23,19 @@ public class TokenServiceTest {
         ReflectionTestUtils.setField(sut, "secret", "secret_test");
         String token = sut.generate(account);
         assertNotNull(token);
+    }
+    @Test
+    public void should_return_role_of_logged_user_if_success() {
+        Account account = Account.create(propsMock.main());
+        ReflectionTestUtils.setField(sut, "secret", "secret_test");
+        String token = sut.generate(account);
+        String userRole = sut.verify(token);
+        assertEquals(userRole, Role.DRIVER.toString());
+    }
+    @Test
+    public void should_throw_InvalidTokenException_if_token_was_invalid() {
+        ReflectionTestUtils.setField(sut, "secret", "secret_test");
+        String invalidToken = "invalid_token";
+        assertThrows(InvalidTokenException.class, () -> sut.verify(invalidToken));
     }
 }
