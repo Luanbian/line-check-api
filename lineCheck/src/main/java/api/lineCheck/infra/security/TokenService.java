@@ -4,15 +4,10 @@ import api.lineCheck.domain.Account;
 import api.lineCheck.infra.interfaces.ITokenService;
 import api.lineCheck.presentation.exceptions.InvalidTokenException;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class TokenService implements ITokenService {
@@ -26,6 +21,7 @@ public class TokenService implements ITokenService {
                 .create()
                 .withIssuer("auth-api")
                 .withSubject(account.getEmail())
+                .withClaim("role", account.getRole().toString())
                 .sign(algorithm);
         return token;
     }
