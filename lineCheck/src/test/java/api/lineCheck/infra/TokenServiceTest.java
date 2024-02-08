@@ -1,7 +1,6 @@
 package api.lineCheck.infra;
 
-import api.lineCheck.domain.Account;
-import api.lineCheck.domain.Role;
+import api.lineCheck.domain.account.Account;
 import api.lineCheck.infra.security.TokenService;
 import api.lineCheck.mocks.AccountPropsMock;
 import api.lineCheck.presentation.exceptions.InvalidTokenException;

@@ -1,7 +1,7 @@
 package api.lineCheck.infra;
 
-import api.lineCheck.domain.Account;
-import api.lineCheck.domain.AccountProps;
+import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.account.AccountProps;
 import api.lineCheck.infra.interfaces.AccountJPArepositories;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.mocks.AccountPropsMock;

@@ -1,6 +1,6 @@
 package api.lineCheck.infra.interfaces;
 
-import api.lineCheck.domain.Account;
+import api.lineCheck.domain.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

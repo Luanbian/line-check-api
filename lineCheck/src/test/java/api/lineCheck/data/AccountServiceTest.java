@@ -2,11 +2,10 @@ package api.lineCheck.data;
 
 import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.usecase.AccountService;
-import api.lineCheck.domain.Account;
-import api.lineCheck.domain.Role;
+import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.account.Role;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.mocks.AccountDtoMock;
-import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

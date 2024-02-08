@@ -2,9 +2,9 @@ package api.lineCheck.data.usecase;
 
 import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.interfaces.IAccountService;
-import api.lineCheck.domain.Account;
-import api.lineCheck.domain.AccountProps;
-import api.lineCheck.domain.Role;
+import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.account.AccountProps;
+import api.lineCheck.domain.account.Role;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import org.springframework.beans.factory.annotation.Autowired;

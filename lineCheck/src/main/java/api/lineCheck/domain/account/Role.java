@@ -1,4 +1,4 @@
-package api.lineCheck.domain;
+package api.lineCheck.domain.account;
 
 public enum Role {
     MANAGER, // 0

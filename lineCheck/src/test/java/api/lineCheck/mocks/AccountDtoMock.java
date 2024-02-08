@@ -1,7 +1,6 @@
 package api.lineCheck.mocks;
 
 import api.lineCheck.core.dtos.AccountDto;
-import api.lineCheck.domain.Role;
 import com.github.javafaker.Faker;
 import lombok.Data;
 

@@ -2,7 +2,7 @@ package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.data.interfaces.IAccountService;
-import api.lineCheck.domain.Account;
+import api.lineCheck.domain.account.Account;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;

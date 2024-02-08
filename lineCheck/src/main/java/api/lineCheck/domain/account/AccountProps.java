@@ -1,4 +1,4 @@
-package api.lineCheck.domain;
+package api.lineCheck.domain.account;
 
 public record AccountProps(
          String name,

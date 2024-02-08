@@ -1,4 +1,4 @@
-package api.lineCheck.domain;
+package api.lineCheck.domain.account;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,7 @@
 package api.lineCheck.data;
 
 import api.lineCheck.data.usecase.AuthService;
-import api.lineCheck.domain.Account;
+import api.lineCheck.domain.account.Account;
 import api.lineCheck.infra.repositories.JPAAuth;
 import api.lineCheck.infra.security.TokenService;
 import api.lineCheck.mocks.AccountPropsMock;

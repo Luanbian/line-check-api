@@ -1,7 +1,7 @@
 package api.lineCheck.mocks;
 
-import api.lineCheck.domain.AccountProps;
-import api.lineCheck.domain.Role;
+import api.lineCheck.domain.account.AccountProps;
+import api.lineCheck.domain.account.Role;
 import com.github.javafaker.Faker;
 
 public class AccountPropsMock {
