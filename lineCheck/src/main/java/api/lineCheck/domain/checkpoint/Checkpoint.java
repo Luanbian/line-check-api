@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
-@Entity(name = "checkpoint")
-@Table(name = "checkpoints")
+@Entity(name = "Checkpoint")
+@Table(name = "Checkpoints")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Checkpoint {
