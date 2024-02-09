@@ -1,4 +1,4 @@
-package api.lineCheck.domain.manufactures;
+package api.lineCheck.domain.manufacture;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Manufacture")
 @Table(name = "Manufactures")
-public class Manufactures {
+public class Manufacture {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
