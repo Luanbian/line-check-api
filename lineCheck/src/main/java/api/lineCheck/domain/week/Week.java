@@ -14,5 +14,11 @@ public class Week {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String week;
+    private Boolean monday;
+    private Boolean tuesday;
+    private Boolean wednesday;
+    private Boolean thursday;
+    private Boolean friday;
+    private Boolean saturday;
+    private Boolean sunday;
 }
