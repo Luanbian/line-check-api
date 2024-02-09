@@ -1,5 +1,6 @@
 package api.lineCheck.domain.account;
 
+import api.lineCheck.domain.Marker.Marker;
 import api.lineCheck.domain.checkpoint.Checkpoint;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,8 @@ public class Account implements UserDetails {
     private Role role;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Checkpoint> checkpointList;
+    @OneToOne(mappedBy = "account")
+    private Marker marker;
 
     private Account (AccountProps props) {
         this.name = props.name();

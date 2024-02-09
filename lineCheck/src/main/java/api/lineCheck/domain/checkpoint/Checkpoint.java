@@ -22,6 +22,6 @@ public class Checkpoint {
     private Time startLine;
     private Time endExpedient;
     @ManyToOne
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "account_id")
     private Account account;
 }

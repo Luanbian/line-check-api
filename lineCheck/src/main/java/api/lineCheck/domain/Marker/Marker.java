@@ -18,5 +18,7 @@ public class Marker {
     private Timestamp startJourney;
     private Timestamp startLine;
     private Timestamp endExpedient;
+    @OneToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 }
