@@ -2,6 +2,10 @@ package api.lineCheck.domain.account;
 
 import api.lineCheck.domain.Marker.Marker;
 import api.lineCheck.domain.checkpoint.Checkpoint;
+import api.lineCheck.domain.manufacture.Manufacture;
+import api.lineCheck.domain.road.Road;
+import api.lineCheck.domain.service.Service;
+import api.lineCheck.domain.vehicle.Vehicle;
 import api.lineCheck.domain.week.Week;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +37,14 @@ public class Account implements UserDetails {
     private Marker marker;
     @OneToOne(mappedBy = "account")
     private Week week;
+    @OneToMany(mappedBy = "account")
+    private List<Service> serviceList;
+    @OneToMany(mappedBy = "account")
+    private List<Road> roadList;
+    @OneToMany(mappedBy = "account")
+    private List<Vehicle> vehicleList;
+    @OneToMany(mappedBy = "account")
+    private List<Manufacture> manufactureList;
 
     private Account (AccountProps props) {
         this.name = props.name();

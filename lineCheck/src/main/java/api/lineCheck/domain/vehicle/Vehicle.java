@@ -1,5 +1,6 @@
 package api.lineCheck.domain.vehicle;
 
+import api.lineCheck.domain.account.Account;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,4 +16,7 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String vehicle;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

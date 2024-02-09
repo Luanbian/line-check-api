@@ -1,5 +1,6 @@
 package api.lineCheck.domain.manufacture;
 
+import api.lineCheck.domain.account.Account;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,5 +17,8 @@ public class Manufacture {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String manufactures;
+    private String manufacture;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
