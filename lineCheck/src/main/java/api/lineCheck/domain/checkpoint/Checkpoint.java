@@ -1,5 +1,6 @@
 package api.lineCheck.domain.checkpoint;
 
+import api.lineCheck.domain.account.Account;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,4 +21,7 @@ public class Checkpoint {
     private Timestamp startJourney;
     private Timestamp startLine;
     private Timestamp endExpedient;
+    @ManyToOne
+    @JoinColumn(name = "driver_id")
+    private Account account;
 }

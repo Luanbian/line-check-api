@@ -1,5 +1,6 @@
 package api.lineCheck.domain.account;
 
+import api.lineCheck.domain.checkpoint.Checkpoint;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +25,8 @@ public class Account implements UserDetails {
     private String phone;
     private String password;
     private Role role;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Checkpoint> checkpointList;
 
     private Account (AccountProps props) {
         this.name = props.name();
