@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.sql.Time;
 import java.util.UUID;
 
 @Data
@@ -18,9 +18,9 @@ public class Checkpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private Timestamp startJourney;
-    private Timestamp startLine;
-    private Timestamp endExpedient;
+    private Time startJourney;
+    private Time startLine;
+    private Time endExpedient;
     @ManyToOne
     @JoinColumn(name = "driver_id")
     private Account account;
