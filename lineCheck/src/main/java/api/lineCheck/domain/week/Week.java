@@ -1,5 +1,6 @@
 package api.lineCheck.domain.week;
 
+import api.lineCheck.domain.account.Account;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,4 +22,7 @@ public class Week {
     private Boolean friday;
     private Boolean saturday;
     private Boolean sunday;
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

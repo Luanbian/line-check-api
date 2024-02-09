@@ -2,6 +2,7 @@ package api.lineCheck.domain.account;
 
 import api.lineCheck.domain.Marker.Marker;
 import api.lineCheck.domain.checkpoint.Checkpoint;
+import api.lineCheck.domain.week.Week;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,8 @@ public class Account implements UserDetails {
     private List<Checkpoint> checkpointList;
     @OneToOne(mappedBy = "account")
     private Marker marker;
+    @OneToOne(mappedBy = "account")
+    private Week week;
 
     private Account (AccountProps props) {
         this.name = props.name();
