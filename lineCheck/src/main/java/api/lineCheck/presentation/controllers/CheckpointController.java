@@ -1,6 +1,7 @@
 package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.data.interfaces.IWorkService;
+import api.lineCheck.domain.work.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class CheckpointController {
     }
     @GetMapping("/driver")
     public ResponseEntity driverInfo() {
-        List<Object[]> works = service.listWorks();
+        List<Work> works = service.listWorks();
         return ResponseEntity.ok(works);
     }
     @GetMapping("/manager")
