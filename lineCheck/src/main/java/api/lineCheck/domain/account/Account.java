@@ -35,8 +35,8 @@ public class Account implements UserDetails {
     private List<Checkpoint> checkpointList;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Marker> marker;
-    @OneToOne(mappedBy = "account")
-    private Week week;
+    @OneToMany(mappedBy = "account")
+    private List<Week> week;
     @OneToMany(mappedBy = "account")
     private List<Service> serviceList;
     @OneToMany(mappedBy = "account")

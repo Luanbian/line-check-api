@@ -22,7 +22,7 @@ public class Week {
     private Boolean friday;
     private Boolean saturday;
     private Boolean sunday;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 }
