@@ -13,7 +13,7 @@ public interface AccountJPArepositories extends JpaRepository<Account, UUID> {
     UserDetails findByEmail(String email);
     List<Account> findByPhone(String phone);
     Account findByEmailAndPassword(String email, String password);
-    @Query("SELECT NEW api.lineCheck.domain.work.WorkDriver(ac.name, w.startJourneyModel, w.startLineModel, w.endLineModel, se.service, lo.logistic, man.manufacture, ve.vehicle, w.daysOfTheWeek) " +
+    @Query("SELECT NEW api.lineCheck.domain.work.WorkDriver(w.id, ac.name, w.startJourneyModel, w.startLineModel, w.endLineModel, se.service, lo.logistic, man.manufacture, ve.vehicle, w.daysOfTheWeek) " +
             "FROM Work w INNER JOIN Account ac ON ac.id = w.account.id " +
             "INNER JOIN Service se ON se.id = w.service.id " +
             "INNER JOIN Logistic lo ON lo.id = w.logistic.id " +

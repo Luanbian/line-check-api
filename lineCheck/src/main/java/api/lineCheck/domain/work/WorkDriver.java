@@ -5,9 +5,11 @@ import lombok.Data;
 
 import java.sql.Time;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class WorkDriver {
+    private UUID id;
     private String accountName;
     private Time startJourneyModel;
     private Time startLineModel;
@@ -18,9 +20,10 @@ public class WorkDriver {
     private String vehicle;
     private List<DaysOfTheWeek> daysOfTheWeek;
     public WorkDriver(
-            String name, Time startJourney, Time startLine, Time endLine,
+            UUID id, String name, Time startJourney, Time startLine, Time endLine,
             String se, String lo, String man, String ve, List<DaysOfTheWeek> days
     ) {
+        this.id = id;
         this.accountName = name;
         this.startJourneyModel = startJourney;
         this.startLineModel = startLine;
