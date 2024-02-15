@@ -20,7 +20,7 @@ public class CheckpointController {
     }
     @GetMapping("/driver")
     public ResponseEntity driverInfo() {
-        List<Work> works = service.listWorks();
+        List<Object[]> works = service.listWorks();
         return ResponseEntity.ok(works);
     }
     @GetMapping("/manager")

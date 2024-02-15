@@ -15,8 +15,8 @@ public class WorkService implements IWorkService {
     public WorkService(IWorkRepository repository) {
         this.repository = repository;
     }
-    public List<Work> listWorks() {
+    public List<Object[]> listWorks() {
         List<Object[]> dbResponse = repository.list();
-        return Work.mapper(dbResponse);
+        return dbResponse;
     }
 }
