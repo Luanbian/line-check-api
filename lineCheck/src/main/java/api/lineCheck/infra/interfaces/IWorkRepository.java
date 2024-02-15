@@ -1,7 +1,9 @@
 package api.lineCheck.infra.interfaces;
 
+import api.lineCheck.domain.work.WorkDriver;
+
 import java.util.List;
 
 public interface IWorkRepository {
-    List<Object[]> list();
+    List<WorkDriver> list();
 }
