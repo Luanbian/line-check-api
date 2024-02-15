@@ -12,15 +12,12 @@ public interface AccountJPArepositories extends JpaRepository<Account, UUID> {
     UserDetails findByEmail(String email);
     List<Account> findByPhone(String phone);
     Account findByEmailAndPassword(String email, String password);
-    @Query("SELECT a.name, cp.startJourney, cp.startLine, cp.endExpedient, m.startJourney, m.startLine, m.endExpedient, " +
-            "s.service, r.road, man.manufacture, v.vehicle, w.monday, w.tuesday, w.wednesday, w.thursday, w.friday, w.saturday, w.sunday " +
-            "FROM Account a " +
-            "INNER JOIN Checkpoint cp ON cp.account.id = a.id " +
-            "INNER JOIN Marker m ON m.account.id = a.id " +
-            "INNER JOIN Service s ON s.account.id = a.id " +
-            "INNER JOIN Road r ON r.account.id = a.id " +
-            "INNER JOIN Vehicle v ON v.account.id = a.id " +
-            "INNER JOIN Manufacture man ON man.account.id = a.id " +
-            "INNER JOIN Week w ON w.account.id = a.id")
+    @Query("SELECT ac.name, w.startJourneyModel, w.startLineModel, w.endLineModel," +
+            "se.service, lo.logistic, man.manufacture, ve.vehicle, w.daysOfTheWeek " +
+            "FROM Work w INNER JOIN Account ac ON ac.id = w.account.id " +
+            "INNER JOIN Service se ON se.id = w.service.id " +
+            "INNER JOIN Logistic lo ON lo.id = w.logistic.id " +
+            "INNER JOIN Manufacture man ON man.id = w.manufacture.id " +
+            "INNER JOIN Vehicle ve ON ve.id = w.vehicle.id")
     List<Object[]> findDriverWorkData();
 }
