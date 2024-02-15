@@ -1,56 +1,47 @@
 package api.lineCheck.domain.work;
+import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.logistic.Logistic;
+import api.lineCheck.domain.manufacture.Manufacture;
+import api.lineCheck.domain.service.Service;
+import api.lineCheck.domain.vehicle.Vehicle;
+import api.lineCheck.domain.week.DaysOfTheWeek;
+import jakarta.persistence.*;
 import lombok.*;
-import java.sql.*;
-import java.util.*;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.UUID;
+
 @Data
+@Entity(name = "Work")
+@Table(name = "works")
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
 public class Work {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String driver;
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
+    @ManyToOne
+    @JoinColumn(name = "service_id", referencedColumnName = "id")
+    private Service service;
+    private List<DaysOfTheWeek> daysOfTheWeek;
     private Time startJourneyModel;
     private Time startLineModel;
-    private Time endExpedientModel;
+    private Time endLineModel;
     private Timestamp startJourneyReal;
     private Timestamp startLineReal;
-    private Timestamp endExpedientReal;
-    private String service;
-    private String road;
-    private String manufacture;
-    private String vehicle;
-    private Boolean monday;
-    private Boolean tuesday;
-    private Boolean wednesday;
-    private Boolean thursday;
-    private Boolean friday;
-    private Boolean saturday;
-    private Boolean sunday;
-    public static List<Work> mapper(List<Object[]> arrays) {
-        List<Work> works = new ArrayList<>();
-        for (Object[] array : arrays) {
-            works.add(mapToWork(array));
-        }
-        return works;
-    }
-    private static Work mapToWork(Object[] array) {
-        Work work = new Work();
-        work.setId(UUID.randomUUID());
-        work.setDriver((String) array[0]);
-        work.setStartJourneyModel((Time) array[1]);
-        work.setStartLineModel((Time) array[2]);
-        work.setEndExpedientModel((Time) array[3]);
-        work.setStartJourneyReal((Timestamp) array[4]);
-        work.setStartLineReal((Timestamp) array[5]);
-        work.setEndExpedientReal((Timestamp) array[6]);
-        work.setService((String) array[7]);
-        work.setRoad((String) array[8]);
-        work.setManufacture((String) array[9]);
-        work.setVehicle((String) array[10]);
-        work.setMonday((Boolean) array[11]);
-        work.setTuesday((Boolean) array[12]);
-        work.setWednesday((Boolean) array[13]);
-        work.setThursday((Boolean) array[14]);
-        work.setFriday((Boolean) array[15]);
-        work.setSaturday((Boolean) array[16]);
-        work.setSunday((Boolean) array[17]);
-        return work;
-    }
+    private Timestamp endLineReal;
+    @ManyToOne
+    @JoinColumn(name = "logistic_id", referencedColumnName = "id")
+    private Logistic logistic;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
+    private Vehicle vehicle;
+    @ManyToOne
+    @JoinColumn(name = "manufacture_id", referencedColumnName = "id")
+    private Manufacture manufacture;
 }

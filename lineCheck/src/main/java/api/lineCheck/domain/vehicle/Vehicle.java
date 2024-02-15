@@ -1,10 +1,10 @@
 package api.lineCheck.domain.vehicle;
 
-import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 import java.util.UUID;
 @Data
 @NoArgsConstructor
@@ -16,7 +16,6 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String vehicle;
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @OneToMany(mappedBy = "vehicle")
+    private List<Work> workList;
 }

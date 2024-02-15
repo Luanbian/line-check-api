@@ -1,22 +1,13 @@
 package api.lineCheck.domain.account;
 
-import api.lineCheck.domain.Marker.Marker;
-import api.lineCheck.domain.checkpoint.Checkpoint;
-import api.lineCheck.domain.manufacture.Manufacture;
-import api.lineCheck.domain.road.Road;
-import api.lineCheck.domain.service.Service;
-import api.lineCheck.domain.vehicle.Vehicle;
-import api.lineCheck.domain.week.Week;
+import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 @Data
 @Entity(name = "Account")
 @Table(name = "Accounts")
@@ -31,21 +22,8 @@ public class Account implements UserDetails {
     private String phone;
     private String password;
     private Role role;
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Checkpoint> checkpointList;
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Marker> marker;
     @OneToMany(mappedBy = "account")
-    private List<Week> week;
-    @OneToMany(mappedBy = "account")
-    private List<Service> serviceList;
-    @OneToMany(mappedBy = "account")
-    private List<Road> roadList;
-    @OneToMany(mappedBy = "account")
-    private List<Vehicle> vehicleList;
-    @OneToMany(mappedBy = "account")
-    private List<Manufacture> manufactureList;
-
+    private List<Work> workList;
     private Account (AccountProps props) {
         this.name = props.name();
         this.email = props.email();

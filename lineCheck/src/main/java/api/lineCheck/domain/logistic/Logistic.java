@@ -1,4 +1,4 @@
-package api.lineCheck.domain.manufacture;
+package api.lineCheck.domain.logistic;
 
 import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
@@ -10,13 +10,13 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Entity(name = "Manufacture")
-@Table(name = "Manufactures")
-public class Manufacture {
+@Table(name = "logistics")
+@Entity(name = "Logistic")
+public class Logistic {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String manufacture;
-    @OneToMany(mappedBy = "manufacture")
+    private String logistic;
+    @OneToMany(mappedBy = "logistic")
     private List<Work> workList;
 }
