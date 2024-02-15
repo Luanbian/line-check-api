@@ -1,6 +1,5 @@
 package api.lineCheck.infra.repositories;
 
-import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.infra.interfaces.AccountJPArepositories;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ public class JPAWork implements IWorkRepository {
         this.repository = repository;
     }
     @Override
-    public List<WorkDriver> list() {
+    public List<Object[]> list() {
         return repository.findDriverWorkData();
     }
 }
