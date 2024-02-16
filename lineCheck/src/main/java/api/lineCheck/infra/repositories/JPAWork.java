@@ -17,4 +17,8 @@ public class JPAWork implements IWorkRepository {
     public List<Object[]> list() {
         return repository.findDriverWorkData();
     }
+    @Override
+    public List<Object[]> listManager() {
+        return repository.findManagerWorkData();
+    }
 }
