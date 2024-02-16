@@ -3,10 +3,13 @@ package api.lineCheck.presentation;
 import api.lineCheck.data.usecase.WorkService;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverMock;
 import api.lineCheck.mocks.WorkManagerMock;
 import api.lineCheck.presentation.controllers.CheckpointController;
 import static org.junit.jupiter.api.Assertions.*;
+
+import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +30,7 @@ public class CheckpointControllerTest {
     public WorkService service;
     public WorkDriverMock workDriverMock = new WorkDriverMock();
     public WorkManagerMock workManagerMock = new WorkManagerMock();
+    public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     @Test
     public void should_return_work_list () {
         List<WorkDriver> workListMock = new ArrayList<>();
@@ -74,6 +78,39 @@ public class CheckpointControllerTest {
             throw new Exception();
         }).when(service).listManagerWorks();
         ResponseEntity response = sut.managerInfo();
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(response.getBody(), "Erro interno do servidor");
+    }
+    @Test
+    public void should_return_ok_if_update_linecheck() {
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        String marker = requestDriverMock.marker;
+        ResponseEntity response = sut.driverUpdateLineCheck(workId, accountId, marker);
+        verify(service, times(1)).updateDriverLineChecks(workId, accountId, marker);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    public void should_fall_in_catch_if_user_try_update_other_linecheck() {
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        String marker = requestDriverMock.marker;
+        doAnswer(invocation -> {
+            throw new ActionNotPermittedException();
+        }).when(service).updateDriverLineChecks(workId, accountId, marker);
+        ResponseEntity response = sut.driverUpdateLineCheck(workId, accountId, marker);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Ação não permitida, você não pode alterar dados de outro funcionário");
+    }
+    @Test
+    public void should_fall_in_catch_if_service_throw() {
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        String marker = requestDriverMock.marker;
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).updateDriverLineChecks(workId, accountId, marker);
+        ResponseEntity response = sut.driverUpdateLineCheck(workId, accountId, marker);
         assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         assertEquals(response.getBody(), "Erro interno do servidor");
     }
