@@ -39,7 +39,7 @@ public class CheckpointController {
         }
     }
     @PutMapping("/driver")
-    public ResponseEntity driverUpdateStatus(@RequestParam("workId") String workId, @RequestParam("accountId") String accountId) {
+    public ResponseEntity driverUpdateStatus(@RequestParam(value = "workId") String workId, @RequestParam(value = "accountId") String accountId) {
         try {
             service.updateStartJourneyReal(workId, accountId);
             return ResponseEntity.ok().build();
