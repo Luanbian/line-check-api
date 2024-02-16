@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
@@ -25,4 +26,5 @@ public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
             "INNER JOIN Manufacture man ON man.id = w.manufacture.id " +
             "INNER JOIN Vehicle ve ON ve.id = w.vehicle.id")
     List<Object[]> findManagerWorkData();
+    Optional<Work> findById(UUID id);
 }

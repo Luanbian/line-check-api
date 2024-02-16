@@ -1,12 +1,15 @@
 package api.lineCheck.infra.repositories;
 
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
+import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import api.lineCheck.infra.interfaces.WorkJPArepositories;
+import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
+
 @Repository
 public class JPAWork implements IWorkRepository {
     private final WorkJPArepositories repository;
@@ -21,5 +24,21 @@ public class JPAWork implements IWorkRepository {
     @Override
     public List<Object[]> listManager() {
         return repository.findManagerWorkData();
+    }
+    @Override
+    public void updateStartJourneyReal(String workId, String accountId) {
+        UUID uuidWorkId = UUID.fromString(workId);
+        Optional<Work> optionalWork = repository.findById(uuidWorkId);
+        if(optionalWork.isPresent()) {
+            Work work = optionalWork.get();
+            String accountFromWork = work.getAccount().getId().toString();
+            if (Objects.equals(accountFromWork, accountId)) {
+                Timestamp now = new Timestamp(System.currentTimeMillis());
+                work.setStartJourneyReal(now);
+                repository.save(work);
+            } else {
+                throw new ActionNotPermittedException();
+            }
+        }
     }
 }
