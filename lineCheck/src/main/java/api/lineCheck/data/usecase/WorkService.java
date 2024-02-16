@@ -1,10 +1,12 @@
 package api.lineCheck.data.usecase;
 
+import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.infra.interfaces.IWorkRepository;
+import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +34,13 @@ public class WorkService implements IWorkService {
         return dbResponse.stream().map(this::mapToWorkManager).collect(Collectors.toList());
     }
     @Override
-    public void updateDriverLineChecks(String workId, String accountId) {
-        repository.updateDriverLineChecks(workId, accountId);
+    public void updateDriverLineChecks(String workId, String accountId, String marker) {
+        try {
+            LineChecks lineCheck = LineChecks.valueOf(marker);
+            repository.updateDriverLineChecks(workId, accountId, lineCheck);
+        } catch (IllegalArgumentException ex) {
+            throw new ActionNotPermittedException();
+        }
     }
     private WorkDriver mapToWorkDriver(Object[] item) {
         return new WorkDriver(

@@ -8,5 +8,5 @@ import java.util.List;
 public interface IWorkService {
     List<WorkDriver> listWorks();
     List<WorkManager> listManagerWorks();
-    void updateDriverLineChecks(String workId, String accountId);
+    void updateDriverLineChecks(String workId, String accountId, String marker);
 }

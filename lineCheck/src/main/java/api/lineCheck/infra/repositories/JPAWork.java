@@ -1,5 +1,6 @@
 package api.lineCheck.infra.repositories;
 
+import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import api.lineCheck.infra.interfaces.WorkJPArepositories;
@@ -26,7 +27,7 @@ public class JPAWork implements IWorkRepository {
         return repository.findManagerWorkData();
     }
     @Override
-    public void updateDriverLineChecks(String workId, String accountId) {
+    public void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = repository.findById(uuidWorkId);
         if(optionalWork.isPresent()) {
@@ -34,7 +35,11 @@ public class JPAWork implements IWorkRepository {
             String accountFromWork = work.getAccount().getId().toString();
             if (Objects.equals(accountFromWork, accountId)) {
                 Timestamp now = new Timestamp(System.currentTimeMillis());
-                work.setStartJourneyReal(now);
+                switch (lineCheck) {
+                    case STARTJOURNEYREAL -> work.setStartJourneyReal(now);
+                    case STARTLINEREAL -> work.setStartLineReal(now);
+                    case ENDLINEREAL -> work.setEndLineReal(now);
+                }
                 repository.save(work);
             } else {
                 throw new ActionNotPermittedException();
