@@ -31,6 +31,10 @@ public class WorkService implements IWorkService {
         List<Object[]> dbResponse = repository.listManager();
         return dbResponse.stream().map(this::mapToWorkManager).collect(Collectors.toList());
     }
+    @Override
+    public void updateStartJourneyReal(String workId, String accountId) {
+        repository.updateStartJourneyReal(workId, accountId);
+    }
     private WorkDriver mapToWorkDriver(Object[] item) {
         return new WorkDriver(
                 (UUID) item[0],

@@ -8,4 +8,5 @@ import java.util.List;
 public interface IWorkService {
     List<WorkDriver> listWorks();
     List<WorkManager> listManagerWorks();
+    void updateStartJourneyReal(String workId, String accountId);
 }
