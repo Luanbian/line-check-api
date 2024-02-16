@@ -20,7 +20,7 @@ public class TokenService implements ITokenService {
         token = JWT
                 .create()
                 .withIssuer("auth-api")
-                .withSubject(account.getEmail())
+                .withSubject(account.getId().toString())
                 .withClaim("role", account.getRole().toString())
                 .sign(algorithm);
         return token;
