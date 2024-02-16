@@ -33,4 +33,20 @@ public class CheckpointControllerTest {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), workListMock);
     }
+    @Test
+    public void should_return_no_content_if_list_works_is_empty () {
+        List<WorkDriver> workListMock = new ArrayList<>();
+        when(service.listWorks()).thenReturn(workListMock);
+        ResponseEntity response = sut.driverInfo();
+        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+    }
+    @Test
+    public void should_fall_in_catch_if_service_throw () {
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).listWorks();
+        ResponseEntity response = sut.driverInfo();
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(response.getBody(), "Erro interno do servidor");
+    }
 }
