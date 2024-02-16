@@ -33,6 +33,7 @@ public class CheckpointController {
     public ResponseEntity managerInfo() {
         try {
             List<WorkManager> works = service.listManagerWorks();
+            if(works.isEmpty()) return ResponseEntity.noContent().build();
             return ResponseEntity.ok(works);
         }catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
