@@ -26,7 +26,7 @@ public class JPAWork implements IWorkRepository {
         return repository.findManagerWorkData();
     }
     @Override
-    public void updateStartJourneyReal(String workId, String accountId) {
+    public void updateDriverLineChecks(String workId, String accountId) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = repository.findById(uuidWorkId);
         if(optionalWork.isPresent()) {

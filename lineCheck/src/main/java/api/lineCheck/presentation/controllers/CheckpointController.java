@@ -39,9 +39,9 @@ public class CheckpointController {
         }
     }
     @PutMapping("/driver")
-    public ResponseEntity driverUpdateStatus(@RequestParam(value = "workId") String workId, @RequestParam(value = "accountId") String accountId) {
+    public ResponseEntity driverUpdateLineCheck(@RequestParam(value = "workId") String workId, @RequestParam(value = "accountId") String accountId) {
         try {
-            service.updateStartJourneyReal(workId, accountId);
+            service.updateDriverLineChecks(workId, accountId);
             return ResponseEntity.ok().build();
         } catch (ActionNotPermittedException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
