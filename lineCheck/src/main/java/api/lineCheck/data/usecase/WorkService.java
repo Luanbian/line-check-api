@@ -35,12 +35,8 @@ public class WorkService implements IWorkService {
     }
     @Override
     public void updateDriverLineChecks(String workId, String accountId, String marker) {
-        try {
-            LineChecks lineCheck = LineChecks.valueOf(marker);
-            repository.updateDriverLineChecks(workId, accountId, lineCheck);
-        } catch (IllegalArgumentException ex) {
-            throw new ActionNotPermittedException();
-        }
+        LineChecks lineCheck = LineChecks.valueOf(marker);
+        repository.updateDriverLineChecks(workId, accountId, lineCheck);
     }
     private WorkDriver mapToWorkDriver(Object[] item) {
         return new WorkDriver(

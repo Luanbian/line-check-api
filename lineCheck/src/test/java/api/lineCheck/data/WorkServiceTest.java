@@ -1,9 +1,11 @@
 package api.lineCheck.data;
 
+import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.usecase.WorkService;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.infra.repositories.JPAWork;
+import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverDbMock;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +27,7 @@ public class WorkServiceTest {
     public JPAWork repository;
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
+    public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     @Test
     public void should_return_list_of_WorkDriver() {
         when(repository.list()).thenReturn(dbDriverMock);
@@ -40,5 +43,14 @@ public class WorkServiceTest {
         verify(repository, times(1)).listManager();
         assertEquals(response.get(0).getId(), dbManagerMock.get(0)[0]);
         assertEquals(response.get(0).getStartJourneyReal(), dbManagerMock.get(0)[3]);
+    }
+    @Test
+    public void should_update_driver_linecheck_if_success() {
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        String marker = requestDriverMock.marker;
+        LineChecks line = LineChecks.valueOf(marker);
+        sut.updateDriverLineChecks(workId, accountId, marker);
+        verify(repository,times(1)).updateDriverLineChecks(workId, accountId, line);
     }
 }
