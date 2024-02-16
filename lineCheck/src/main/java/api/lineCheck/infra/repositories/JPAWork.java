@@ -5,6 +5,7 @@ import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import api.lineCheck.infra.interfaces.WorkJPArepositories;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
+import api.lineCheck.presentation.exceptions.NotFoundWorkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,22 +29,28 @@ public class JPAWork implements IWorkRepository {
     }
     @Override
     public void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck) {
+        Work work = this.findWorkById(workId);
+        this.compareWorkAccountAndLoggedAccount(work, accountId);
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        switch (lineCheck) {
+            case STARTJOURNEYREAL -> work.setStartJourneyReal(now);
+            case STARTLINEREAL -> work.setStartLineReal(now);
+            case ENDLINEREAL -> work.setEndLineReal(now);
+        }
+        repository.save(work);
+    }
+    private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = repository.findById(uuidWorkId);
-        if(optionalWork.isPresent()) {
-            Work work = optionalWork.get();
-            String accountFromWork = work.getAccount().getId().toString();
-            if (Objects.equals(accountFromWork, accountId)) {
-                Timestamp now = new Timestamp(System.currentTimeMillis());
-                switch (lineCheck) {
-                    case STARTJOURNEYREAL -> work.setStartJourneyReal(now);
-                    case STARTLINEREAL -> work.setStartLineReal(now);
-                    case ENDLINEREAL -> work.setEndLineReal(now);
-                }
-                repository.save(work);
-            } else {
-                throw new ActionNotPermittedException();
-            }
+        if (optionalWork.isPresent()) {
+            return optionalWork.get();
+        }
+        throw new NotFoundWorkException();
+    }
+    private void compareWorkAccountAndLoggedAccount(Work workAccount, String loggedAccount) {
+        String accountFromWork = workAccount.getAccount().getId().toString();
+        if(!Objects.equals(accountFromWork, loggedAccount)) {
+            throw new ActionNotPermittedException();
         }
     }
 }
