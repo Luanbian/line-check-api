@@ -26,15 +26,10 @@ public class WorkServiceTest {
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
     @Test
-    public void should_call_repositories() {
-        sut.listWorks();
-        verify(repository, times(1)).list();
-        verify(repository, times(1)).listManager();
-    }
-    @Test
     public void should_return_list_of_WorkDriver() {
         when(repository.list()).thenReturn(dbDriverMock);
         List<WorkDriver> response = sut.listWorks();
+        verify(repository, times(1)).list();
         assertEquals(response.get(0).getId(), dbDriverMock.get(0)[0]);
         assertEquals(response.get(0).getAccountName(), dbDriverMock.get(0)[1]);
     }
@@ -42,6 +37,7 @@ public class WorkServiceTest {
     public void should_return_list_of_WorkManager() {
         when(repository.listManager()).thenReturn(dbManagerMock);
         List<WorkManager> response = sut.listManagerWorks();
+        verify(repository, times(1)).listManager();
         assertEquals(response.get(0).getId(), dbManagerMock.get(0)[0]);
         assertEquals(response.get(0).getStartJourneyReal(), dbManagerMock.get(0)[3]);
     }
