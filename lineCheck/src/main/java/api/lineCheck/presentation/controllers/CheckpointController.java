@@ -3,11 +3,10 @@ package api.lineCheck.presentation.controllers;
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +35,17 @@ public class CheckpointController {
             if(works.isEmpty()) return ResponseEntity.noContent().build();
             return ResponseEntity.ok(works);
         }catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
+    }
+    @PutMapping("/driver")
+    public ResponseEntity driverUpdateStatus(@RequestParam("workId") String workId, @RequestParam("accountId") String accountId) {
+        try {
+            service.updateStartJourneyReal(workId, accountId);
+            return ResponseEntity.ok().build();
+        } catch (ActionNotPermittedException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
     }
