@@ -1,6 +1,6 @@
 package api.lineCheck.infra;
 
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
+import api.lineCheck.infra.interfaces.WorkJPArepositories;
 import api.lineCheck.infra.repositories.JPAWork;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +20,7 @@ public class JPAWorkTest {
     @InjectMocks
     public JPAWork sut;
     @Mock
-    public AccountJPArepositories repository;
+    public WorkJPArepositories repository;
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
     @Test
