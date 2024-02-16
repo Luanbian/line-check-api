@@ -20,8 +20,13 @@ public class CheckpointController {
     }
     @GetMapping("/driver")
     public ResponseEntity driverInfo() {
-        List<WorkDriver> works = service.listWorks();
-        return ResponseEntity.ok(works);
+        try {
+            List<WorkDriver> works = service.listWorks();
+            if (works.isEmpty()) return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(works);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
     }
     @GetMapping("/manager")
     public ResponseEntity managerInfo() {
