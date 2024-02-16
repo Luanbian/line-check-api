@@ -9,6 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,6 +22,7 @@ public class TokenServiceTest {
     @Test
     public void should_return_random_token_if_success() {
         Account account = Account.create(propsMock.main());
+        account.setId(UUID.randomUUID());
         ReflectionTestUtils.setField(sut, "secret", "secret_test");
         String token = sut.generate(account);
         assertNotNull(token);
@@ -26,10 +30,11 @@ public class TokenServiceTest {
     @Test
     public void should_return_email_of_logged_user_if_success() {
         Account account = Account.create(propsMock.main());
+        account.setId(UUID.randomUUID());
         ReflectionTestUtils.setField(sut, "secret", "secret_test");
         String token = sut.generate(account);
-        String email = sut.verify(token);
-        assertEquals(email, account.getEmail());
+        String id = sut.verify(token);
+        assertEquals(id, account.getId().toString());
     }
     @Test
     public void should_throw_InvalidTokenException_if_token_was_invalid() {
