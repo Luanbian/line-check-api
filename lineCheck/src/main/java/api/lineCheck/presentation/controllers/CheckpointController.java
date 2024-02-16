@@ -2,6 +2,7 @@ package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.work.WorkDriver;
+import api.lineCheck.domain.work.WorkManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,11 @@ public class CheckpointController {
     }
     @GetMapping("/manager")
     public ResponseEntity managerInfo() {
-        return ResponseEntity.ok("Manager screen");
+        try {
+            List<WorkManager> works = service.listManagerWorks();
+            return ResponseEntity.ok(works);
+        }catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
     }
 }
