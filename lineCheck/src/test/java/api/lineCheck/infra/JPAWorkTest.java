@@ -46,7 +46,7 @@ public class JPAWorkTest {
         assertEquals(response, dbManagerMock);
     }
     @Test
-    public void should_update_driver_line_check() {
+    public void should_update_driver_start_journey_real() {
         String workId = requestDriverMock.workId;
         UUID accountId = UUID.fromString(requestDriverMock.accountId);
         LineChecks lineCheck = LineChecks.STARTJOURNEYREAL;
@@ -60,8 +60,40 @@ public class JPAWorkTest {
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
         verify(work, times(1)).setStartJourneyReal(any());
-        verify(work, never()).setEndLineReal(any());
-        verify(work, never()).setStartLineReal(any());
+        verify(repository).save(work);
+    }
+    @Test
+    public void should_update_driver_start_line_real() {
+        String workId = requestDriverMock.workId;
+        UUID accountId = UUID.fromString(requestDriverMock.accountId);
+        LineChecks lineCheck = LineChecks.STARTLINEREAL;
+
+        Account account = mock(Account.class);
+        when(account.getId()).thenReturn(accountId);
+
+        Work work = mock(Work.class);
+        when(work.getAccount()).thenReturn(account);
+        when(repository.findById(any())).thenReturn(Optional.of(work));
+
+        sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
+        verify(work, times(1)).setStartLineReal(any());
+        verify(repository).save(work);
+    }
+    @Test
+    public void should_update_driver_end_line_real() {
+        String workId = requestDriverMock.workId;
+        UUID accountId = UUID.fromString(requestDriverMock.accountId);
+        LineChecks lineCheck = LineChecks.ENDLINEREAL;
+
+        Account account = mock(Account.class);
+        when(account.getId()).thenReturn(accountId);
+
+        Work work = mock(Work.class);
+        when(work.getAccount()).thenReturn(account);
+        when(repository.findById(any())).thenReturn(Optional.of(work));
+
+        sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
+        verify(work, times(1)).setEndLineReal(any());
         verify(repository).save(work);
     }
     @Test
