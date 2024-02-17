@@ -42,10 +42,10 @@ public class JPAWork implements IWorkRepository {
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = repository.findById(uuidWorkId);
-        if (optionalWork.isPresent()) {
-            return optionalWork.get();
+        if (optionalWork.isEmpty()) {
+            throw new NotFoundWorkException();
         }
-        throw new NotFoundWorkException();
+        return optionalWork.get();
     }
     private void compareWorkAccountAndLoggedAccount(Work workAccount, String loggedAccount) {
         String accountFromWork = workAccount.getAccount().getId().toString();
