@@ -16,7 +16,13 @@ public class WorkDriverDbMock {
         LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
         List<Object[]> data = new ArrayList<>();
         List<DaysOfTheWeek> daysOfTheWeeks = new ArrayList<>();
-        daysOfTheWeeks.add(faker.options().option(DaysOfTheWeek.class));
+        daysOfTheWeeks.add(DaysOfTheWeek.SUNDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.MONDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.TUESDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.WEDNESDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.THURSDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.FRIDAY);
+        daysOfTheWeeks.add(DaysOfTheWeek.SATURDAY);
         Object[] item = new Object[]{
                 UUID.randomUUID(),
                 "Ismael",
