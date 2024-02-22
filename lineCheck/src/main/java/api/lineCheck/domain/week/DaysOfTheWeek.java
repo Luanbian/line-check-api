@@ -7,5 +7,5 @@ public enum DaysOfTheWeek {
     WEDNESDAY, // 3 QUA
     THURSDAY, // 4 QUI
     FRIDAY, // 5 SEX
-    SATURDAY //6 SAB
+    SATURDAY // 6 SAB
 }

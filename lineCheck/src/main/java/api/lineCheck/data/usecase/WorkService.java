@@ -6,12 +6,13 @@ import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.infra.interfaces.IWorkRepository;
-import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,7 +27,10 @@ public class WorkService implements IWorkService {
     @Override
     public List<WorkDriver> listWorks() {
         List<Object[]> dbResponse = repository.list();
-        return dbResponse.stream().map(this::mapToWorkDriver).collect(Collectors.toList());
+        List<WorkDriver> works = dbResponse.stream().map(this::mapToWorkDriver).toList();
+        DayOfWeek dayOfWeekNow = LocalDate.now().getDayOfWeek();
+        DaysOfTheWeek today = convertToDaysOfTheWeek(dayOfWeekNow);
+        return works.stream().filter(item -> item.getDaysOfTheWeek().contains(today)).toList();
     }
     @Override
     public List<WorkManager> listManagerWorks() {
@@ -68,5 +72,16 @@ public class WorkService implements IWorkService {
                 (String) item[11],
                 (List<DaysOfTheWeek>) item[12]
         );
+    }
+    private DaysOfTheWeek convertToDaysOfTheWeek(DayOfWeek dayOfWeek) {
+        return switch (dayOfWeek) {
+            case SUNDAY -> DaysOfTheWeek.SUNDAY;
+            case MONDAY -> DaysOfTheWeek.MONDAY;
+            case TUESDAY -> DaysOfTheWeek.TUESDAY;
+            case WEDNESDAY -> DaysOfTheWeek.WEDNESDAY;
+            case THURSDAY -> DaysOfTheWeek.THURSDAY;
+            case FRIDAY -> DaysOfTheWeek.FRIDAY;
+            case SATURDAY -> DaysOfTheWeek.SATURDAY;
+        };
     }
 }
