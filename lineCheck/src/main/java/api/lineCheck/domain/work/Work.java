@@ -17,7 +17,7 @@ import java.util.UUID;
 @Entity(name = "Work")
 @Table(name = "works")
 @EqualsAndHashCode(of = "id")
-@NoArgsConstructor
+@NoArgsConstructor()
 public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,6 +35,8 @@ public class Work {
     private Timestamp startJourneyReal;
     private Timestamp startLineReal;
     private Timestamp endLineReal;
+    private Time timeWorkedModel;
+    private Time timeWorkedReal;
     @ManyToOne
     @JoinColumn(name = "logistic_id", referencedColumnName = "id")
     private Logistic logistic;
