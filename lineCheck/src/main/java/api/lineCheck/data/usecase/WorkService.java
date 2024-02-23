@@ -3,11 +3,12 @@ package api.lineCheck.data.usecase;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
+import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.week.DaysOfTheWeek;
-import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.infra.interfaces.IWorkRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,17 @@ import java.util.stream.Collectors;
 @Service
 public class WorkService implements IWorkService {
     private final IWorkRepository repository;
+    private final EntityManager entityManager;
     @Autowired
-    public WorkService(IWorkRepository repository) {
+    public WorkService(IWorkRepository repository, EntityManager entityManager) {
         this.repository = repository;
+        this.entityManager = entityManager;
     }
     @Override
-    public Work create(WorkDto dto) {
-        // TODO implement create new work
-        return null;
+    public void create(WorkDto dto) {
+        UUID accountId = UUID.fromString(dto.accountId());
+        Account account = entityManager.getReference(Account.class, accountId);
+        System.out.println(account);
     }
     @Override
     public List<WorkDriver> listWorks() {
