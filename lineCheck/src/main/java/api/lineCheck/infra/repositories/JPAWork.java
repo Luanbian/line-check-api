@@ -9,6 +9,7 @@ import api.lineCheck.presentation.exceptions.NotFoundWorkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -35,7 +36,11 @@ public class JPAWork implements IWorkRepository {
         switch (lineCheck) {
             case STARTJOURNEYREAL -> work.setStartJourneyReal(now);
             case STARTLINEREAL -> work.setStartLineReal(now);
-            case ENDLINEREAL -> work.setEndLineReal(now);
+            case ENDLINEREAL -> {
+                work.setEndLineReal(now);
+                Time diff = calculateTimeWorkedReal(work.getEndLineReal(), work.getStartJourneyReal());
+                work.setTimeWorkedReal(diff);
+            }
         }
         repository.save(work);
     }
@@ -52,5 +57,9 @@ public class JPAWork implements IWorkRepository {
         if(!Objects.equals(accountFromWork, loggedAccount)) {
             throw new ActionNotPermittedException();
         }
+    }
+    private Time calculateTimeWorkedReal(Timestamp end, Timestamp start) {
+        long diff = end.getTime() - start.getTime();
+        return new Time(diff);
     }
 }
