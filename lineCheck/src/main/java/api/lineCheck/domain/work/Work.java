@@ -46,4 +46,20 @@ public class Work {
     @ManyToOne
     @JoinColumn(name = "manufacture_id", referencedColumnName = "id")
     private Manufacture manufacture;
+    @PersistenceContext
+    private EntityManager entityManager;
+    private Work(WorkProps props) {
+        this.account = entityManager.getReference(Account.class, props.accountId());
+        this.service = entityManager.getReference(Service.class, props.serviceId());
+        this.daysOfTheWeek = props.daysOfTheWeeks();
+        this.startJourneyModel = props.startJourneyModel();
+        this.startLineModel = props.startLineModel();
+        this.endLineModel = props.endLineModel();
+        this.logistic = entityManager.getReference(Logistic.class, props.logistic());
+        this.vehicle = entityManager.getReference(Vehicle.class, props.vehicle());
+        this.manufacture = entityManager.getReference(Manufacture.class, props.vehicle());
+    }
+    public static Work create(WorkProps props) {
+        return new Work(props);
+    }
 }
