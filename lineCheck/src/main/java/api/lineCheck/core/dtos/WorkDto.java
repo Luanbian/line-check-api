@@ -19,9 +19,9 @@ public record WorkDto(
         @Size(min = 8, max = 8, message = "horário deve ter 8 caracteres no formato HH:mm:ss")
         String endLineModel,
         @NotNull(message = "logistica não encontrada")
-        String logistic,
+        String logisticId,
         @NotNull(message = "veiculo não encontrado")
-        String vehicle,
+        String vehicleId,
         @NotNull(message = "fábrica não encontrada")
-        String manufacture
+        String manufactureId
 ) {}
