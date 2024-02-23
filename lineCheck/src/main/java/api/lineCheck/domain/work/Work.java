@@ -2,7 +2,7 @@ package api.lineCheck.domain.work;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.logistic.Logistic;
 import api.lineCheck.domain.manufacture.Manufacture;
-import api.lineCheck.domain.service.Service;
+import api.lineCheck.domain.service.DriverService;
 import api.lineCheck.domain.vehicle.Vehicle;
 import api.lineCheck.domain.week.DaysOfTheWeek;
 import jakarta.persistence.*;
@@ -27,7 +27,7 @@ public class Work {
     private Account account;
     @ManyToOne
     @JoinColumn(name = "service_id", referencedColumnName = "id")
-    private Service service;
+    private DriverService service;
     private List<DaysOfTheWeek> daysOfTheWeek;
     private Time startJourneyModel;
     private Time startLineModel;

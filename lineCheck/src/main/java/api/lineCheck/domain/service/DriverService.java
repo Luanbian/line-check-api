@@ -12,7 +12,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Service")
 @Table(name = "Services")
-public class Service {
+public class DriverService {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
