@@ -1,8 +1,10 @@
 package api.lineCheck.data.usecase;
 
+import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.week.DaysOfTheWeek;
+import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.infra.interfaces.IWorkRepository;
@@ -23,6 +25,11 @@ public class WorkService implements IWorkService {
     @Autowired
     public WorkService(IWorkRepository repository) {
         this.repository = repository;
+    }
+    @Override
+    public Work create(WorkDto dto) {
+        // TODO implement create new work
+        return null;
     }
     @Override
     public List<WorkDriver> listWorks() {
