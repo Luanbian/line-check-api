@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/manager").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
+                        .requestMatchers(HttpMethod.POST, "api/checkpoint/line").hasAnyRole("MANAGER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

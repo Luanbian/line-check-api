@@ -1,11 +1,13 @@
 package api.lineCheck.presentation.controllers;
 
+import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +53,15 @@ public class CheckpointController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
+    }
+    @PostMapping("/line")
+    public ResponseEntity createLine(@Validated @RequestBody WorkDto dto) {
+        try {
+            service.create(dto);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 }
