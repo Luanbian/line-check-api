@@ -2,6 +2,7 @@ package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.interfaces.IWorkService;
+import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
@@ -58,8 +59,8 @@ public class CheckpointController {
     @PostMapping("/line")
     public ResponseEntity createLine(@Validated @RequestBody WorkDto dto) {
         try {
-            service.create(dto);
-            return ResponseEntity.ok().build();
+            Work work = service.create(dto);
+            return ResponseEntity.ok(work);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body(ex.getMessage());
         }
