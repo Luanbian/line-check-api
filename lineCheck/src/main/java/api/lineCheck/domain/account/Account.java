@@ -1,7 +1,5 @@
 package api.lineCheck.domain.account;
 
-import api.lineCheck.domain.work.Work;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +12,6 @@ import java.util.*;
 @Table(name = "Accounts")
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor()
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,8 +21,7 @@ public class Account implements UserDetails {
     private String phone;
     private String password;
     private Role role;
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private List<Work> workList;
+    private List<UUID> workListIds;
     private Account (AccountProps props) {
         this.name = props.name();
         this.email = props.email();

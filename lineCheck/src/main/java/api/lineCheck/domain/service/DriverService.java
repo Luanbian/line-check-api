@@ -1,6 +1,5 @@
 package api.lineCheck.domain.service;
 
-import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +16,5 @@ public class DriverService {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String service;
-    @OneToMany(mappedBy = "service",fetch = FetchType.LAZY)
-    private List<Work> workList;
+    private List<UUID> workListIds;
 }

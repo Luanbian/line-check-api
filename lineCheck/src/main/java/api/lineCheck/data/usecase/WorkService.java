@@ -3,59 +3,31 @@ package api.lineCheck.data.usecase;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
-import api.lineCheck.domain.account.Account;
-import api.lineCheck.domain.logistic.Logistic;
-import api.lineCheck.domain.manufacture.Manufacture;
-import api.lineCheck.domain.service.DriverService;
-import api.lineCheck.domain.vehicle.Vehicle;
 import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
-import api.lineCheck.domain.work.WorkProps;
 import api.lineCheck.infra.interfaces.IWorkRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
 public class WorkService implements IWorkService {
     private final IWorkRepository repository;
-    @PersistenceContext
-    private final EntityManager entityManager;
     @Autowired
-    public WorkService(IWorkRepository repository, EntityManager entityManager) {
+    public WorkService(IWorkRepository repository) {
         this.repository = repository;
-        this.entityManager = entityManager;
     }
     @Override
     @Transactional
     public Work create(WorkDto dto) {
-        UUID accountId = UUID.fromString(dto.accountId());
-        UUID driverServiceId = UUID.fromString(dto.serviceId());
-        UUID logisticId = UUID.fromString(dto.logisticId());
-        UUID vehicleId = UUID.fromString(dto.vehicleId());
-        UUID manufactureId = UUID.fromString(dto.manufactureId());
-        Account account = entityManager.getReference(Account.class, accountId);
-        DriverService driverService = entityManager.getReference(DriverService.class, driverServiceId);
-        Logistic logistic = entityManager.getReference(Logistic.class, logisticId);
-        Vehicle vehicle = entityManager.getReference(Vehicle.class, vehicleId);
-        Manufacture manufacture = entityManager.getReference(Manufacture.class, manufactureId);
-        List<DaysOfTheWeek> days = new ArrayList<>();
-        days.add(DaysOfTheWeek.FRIDAY);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:m:s");
-        LocalTime startJourney = LocalTime.parse(dto.startJourneyModel(), formatter);
-        LocalTime startLine = LocalTime.parse(dto.startLineModel(), formatter);
-        LocalTime endLine = LocalTime.parse(dto.endLineModel(), formatter);
-        WorkProps props = new WorkProps(account, driverService, days, Time.valueOf(startJourney), Time.valueOf(startLine), Time.valueOf(endLine), logistic, vehicle, manufacture);
-        return Work.create(props);
+        // TODO implement create new work
+       return null;
     }
     @Override
     public List<WorkDriver> listWorks() {

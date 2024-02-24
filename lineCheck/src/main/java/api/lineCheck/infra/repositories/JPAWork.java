@@ -53,7 +53,7 @@ public class JPAWork implements IWorkRepository {
         return optionalWork.get();
     }
     private void compareWorkAccountAndLoggedAccount(Work workAccount, String loggedAccount) {
-        String accountFromWork = workAccount.getAccount().getId().toString();
+        String accountFromWork = workAccount.getAccountId().toString();
         if(!Objects.equals(accountFromWork, loggedAccount)) {
             throw new ActionNotPermittedException();
         }
