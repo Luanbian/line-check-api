@@ -16,6 +16,6 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String vehicle;
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     private List<Work> workList;
 }

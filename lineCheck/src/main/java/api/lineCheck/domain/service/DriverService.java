@@ -17,6 +17,6 @@ public class DriverService {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String service;
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "service",fetch = FetchType.LAZY)
     private List<Work> workList;
 }

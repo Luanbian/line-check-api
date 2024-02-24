@@ -5,6 +5,7 @@ import api.lineCheck.domain.manufacture.Manufacture;
 import api.lineCheck.domain.service.DriverService;
 import api.lineCheck.domain.vehicle.Vehicle;
 import api.lineCheck.domain.week.DaysOfTheWeek;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,11 +23,13 @@ public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("workList")
     private Account account;
     @ManyToOne
     @JoinColumn(name = "service_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("workList")
     private DriverService service;
     private List<DaysOfTheWeek> daysOfTheWeek;
     private Time startJourneyModel;
@@ -39,12 +42,15 @@ public class Work {
     private Time timeWorkedReal;
     @ManyToOne
     @JoinColumn(name = "logistic_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("workList")
     private Logistic logistic;
     @ManyToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("workList")
     private Vehicle vehicle;
     @ManyToOne
     @JoinColumn(name = "manufacture_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("workList")
     private Manufacture manufacture;
     private Work(WorkProps props) {
         this.account = props.account();

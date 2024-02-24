@@ -17,6 +17,6 @@ public class Manufacture {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String manufacture;
-    @OneToMany(mappedBy = "manufacture")
+    @OneToMany(mappedBy = "manufacture", fetch = FetchType.LAZY)
     private List<Work> workList;
 }
