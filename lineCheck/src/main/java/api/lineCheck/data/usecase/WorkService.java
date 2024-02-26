@@ -6,14 +6,19 @@ import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.domain.work.WorkProps;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Date;
 
 @Service
 public class WorkService implements IWorkService {
@@ -25,8 +30,20 @@ public class WorkService implements IWorkService {
     @Override
     @Transactional
     public Work create(WorkDto dto) {
-        // TODO implement create new work
-       return null;
+        UUID accountUUID = UUID.fromString(dto.accountId());
+        UUID driverServiceUUID = UUID.fromString(dto.serviceId());
+        List<DayOfWeek> days = dto.daysOfTheWeeks().stream().map(this::mapToDayOfWeek).toList();
+        LocalTime startJourneyLocal = LocalTime.parse(dto.startJourneyModel());
+        LocalTime startLineLocal = LocalTime.parse(dto.startLineModel());
+        LocalTime endLineLocal = LocalTime.parse(dto.endLineModel());
+        Time startJorneyTime = Time.valueOf(startJourneyLocal);
+        Time startLineTime = Time.valueOf(startLineLocal);
+        Time endLineTime = Time.valueOf(endLineLocal);
+        UUID logisticUUID = UUID.fromString(dto.logisticId());
+        UUID vehicleUUID = UUID.fromString(dto.vehicleId());
+        UUID manufactureUUID = UUID.fromString(dto.manufactureId());
+        WorkProps props = new WorkProps(accountUUID, driverServiceUUID, days, startJorneyTime, startLineTime, endLineTime, logisticUUID,vehicleUUID, manufactureUUID);
+        return Work.create(props);
     }
     @Override
     public List<WorkDriver> listWorks() {
@@ -75,5 +92,17 @@ public class WorkService implements IWorkService {
                 (String) item[11],
                 (List<DayOfWeek>) item[12]
         );
+    }
+    private DayOfWeek mapToDayOfWeek(String item) {
+        return switch (item) {
+            case "SUNDAY" -> DayOfWeek.SUNDAY;
+            case "MONDAY" -> DayOfWeek.MONDAY;
+            case "TUESDAY" -> DayOfWeek.TUESDAY;
+            case "WEDNESDAY" -> DayOfWeek.WEDNESDAY;
+            case "THURSDAY" -> DayOfWeek.THURSDAY;
+            case "FRIDAY" -> DayOfWeek.FRIDAY;
+            case "SATURDAY" -> DayOfWeek.SATURDAY;
+            default -> throw new IllegalStateException("Unexpected day of the week: " + item);
+        };
     }
 }
