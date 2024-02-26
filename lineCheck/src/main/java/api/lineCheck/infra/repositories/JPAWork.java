@@ -1,17 +1,18 @@
 package api.lineCheck.infra.repositories;
 
 import api.lineCheck.data.enums.LineChecks;
-import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import api.lineCheck.infra.interfaces.WorkJPArepositories;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
+import api.lineCheck.presentation.exceptions.LineConflictException;
 import api.lineCheck.presentation.exceptions.NotFoundWorkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.util.*;
 
 @Repository
@@ -47,6 +48,8 @@ public class JPAWork implements IWorkRepository {
     }
     @Override
     public void createWork(Work data) {
+        List<Work> list = repository.findWorkConflict(data.getAccountId(), data.getStartLineModel());
+        findWorkConflicts(list, data.getDaysOfTheWeek());
         repository.save(data);
         repository.setWorkListId(data.getAccountId(), data.getId());
     }
@@ -67,5 +70,14 @@ public class JPAWork implements IWorkRepository {
     private Time calculateTimeWorkedReal(Timestamp end, Timestamp start) {
         long diff = end.getTime() - start.getTime();
         return new Time(diff);
+    }
+    private void findWorkConflicts(List<Work> list, List<DayOfWeek> data) {
+        List<Work> conflicts = list.stream()
+                .filter(work -> work.getDaysOfTheWeek().stream()
+                .anyMatch(data::contains))
+                .toList();
+        if(!conflicts.isEmpty()) {
+            throw new LineConflictException();
+        }
     }
 }
