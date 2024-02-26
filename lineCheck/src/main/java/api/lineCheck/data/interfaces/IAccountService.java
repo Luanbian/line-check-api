@@ -4,5 +4,5 @@ import api.lineCheck.core.dtos.AccountDto;
 import api.lineCheck.domain.account.Account;
 
 public interface IAccountService {
-    Account register(AccountDto data);
+    Account register(AccountDto dto);
 }

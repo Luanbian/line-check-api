@@ -18,17 +18,20 @@ public class AccountService implements IAccountService {
         this.repository = repository;
     }
     @Override
-    public Account register(AccountDto data) {
-        Role role = switch (data.role().toUpperCase()) {
+    public Account register(AccountDto dto) {
+        AccountProps props = convertDtoToProps(dto);
+        Account account = Account.create(props);
+        repository.create(account);
+        return account;
+    }
+    private AccountProps convertDtoToProps (AccountDto dto) {
+        Role role = switch (dto.role().toUpperCase()) {
             case "MANAGER" -> Role.MANAGER;
             case "DRIVER" -> Role.DRIVER;
             default -> throw new InvalidRoleException();
         };
-        AccountProps props = new AccountProps(
-                data.name(), data.email(), data.phone(), data.password(), role
+        return new AccountProps(
+                dto.name(), dto.email(), dto.phone(), dto.password(), role
         );
-        Account account = Account.create(props);
-        repository.create(account);
-        return account;
     }
 }

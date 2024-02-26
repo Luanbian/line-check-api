@@ -13,12 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.Date;
 
 @Service
 public class WorkService implements IWorkService {
@@ -30,19 +26,7 @@ public class WorkService implements IWorkService {
     @Override
     @Transactional
     public Work create(WorkDto dto) {
-        UUID accountUUID = UUID.fromString(dto.accountId());
-        UUID driverServiceUUID = UUID.fromString(dto.serviceId());
-        List<DayOfWeek> days = dto.daysOfTheWeeks().stream().map(this::mapToDayOfWeek).toList();
-        LocalTime startJourneyLocal = LocalTime.parse(dto.startJourneyModel());
-        LocalTime startLineLocal = LocalTime.parse(dto.startLineModel());
-        LocalTime endLineLocal = LocalTime.parse(dto.endLineModel());
-        Time startJorneyTime = Time.valueOf(startJourneyLocal);
-        Time startLineTime = Time.valueOf(startLineLocal);
-        Time endLineTime = Time.valueOf(endLineLocal);
-        UUID logisticUUID = UUID.fromString(dto.logisticId());
-        UUID vehicleUUID = UUID.fromString(dto.vehicleId());
-        UUID manufactureUUID = UUID.fromString(dto.manufactureId());
-        WorkProps props = new WorkProps(accountUUID, driverServiceUUID, days, startJorneyTime, startLineTime, endLineTime, logisticUUID,vehicleUUID, manufactureUUID);
+        WorkProps props = convertDtoToProps(dto);
         Work work = Work.create(props);
         repository.createWork(work);
         return work;
@@ -106,5 +90,23 @@ public class WorkService implements IWorkService {
             case "SATURDAY" -> DayOfWeek.SATURDAY;
             default -> throw new IllegalStateException("Unexpected day of the week: " + item);
         };
+    }
+    private WorkProps convertDtoToProps (WorkDto dto) {
+        UUID accountUUID = UUID.fromString(dto.accountId());
+        UUID driverServiceUUID = UUID.fromString(dto.serviceId());
+        UUID logisticUUID = UUID.fromString(dto.logisticId());
+        UUID vehicleUUID = UUID.fromString(dto.vehicleId());
+        UUID manufactureUUID = UUID.fromString(dto.manufactureId());
+        List<DayOfWeek> days = dto.daysOfTheWeeks().stream().map(this::mapToDayOfWeek).toList();
+        LocalTime startJourneyLocal = LocalTime.parse(dto.startJourneyModel());
+        LocalTime startLineLocal = LocalTime.parse(dto.startLineModel());
+        LocalTime endLineLocal = LocalTime.parse(dto.endLineModel());
+        Time startJorneyTime = Time.valueOf(startJourneyLocal);
+        Time startLineTime = Time.valueOf(startLineLocal);
+        Time endLineTime = Time.valueOf(endLineLocal);
+        return new WorkProps(
+                accountUUID, driverServiceUUID, days, startJorneyTime, startLineTime,
+                endLineTime, logisticUUID,vehicleUUID, manufactureUUID
+        );
     }
 }
