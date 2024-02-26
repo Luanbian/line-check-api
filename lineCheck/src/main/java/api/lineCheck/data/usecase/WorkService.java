@@ -43,7 +43,9 @@ public class WorkService implements IWorkService {
         UUID vehicleUUID = UUID.fromString(dto.vehicleId());
         UUID manufactureUUID = UUID.fromString(dto.manufactureId());
         WorkProps props = new WorkProps(accountUUID, driverServiceUUID, days, startJorneyTime, startLineTime, endLineTime, logisticUUID,vehicleUUID, manufactureUUID);
-        return Work.create(props);
+        Work work = Work.create(props);
+        repository.createWork(work);
+        return work;
     }
     @Override
     public List<WorkDriver> listWorks() {

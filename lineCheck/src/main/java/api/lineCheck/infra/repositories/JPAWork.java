@@ -44,6 +44,10 @@ public class JPAWork implements IWorkRepository {
         }
         repository.save(work);
     }
+    @Override
+    public void createWork(Work data) {
+        repository.save(data);
+    }
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = repository.findById(uuidWorkId);
