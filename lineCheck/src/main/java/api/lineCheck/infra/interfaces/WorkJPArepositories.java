@@ -29,9 +29,7 @@ public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
     List<Object[]> findManagerWorkData();
     Optional<Work> findById(UUID id);
     @Modifying
-    @Query(
-            value = "UPDATE accounts SET work_list_ids = array_append(work_list_ids, ?2) WHERE id = ?1",
-            nativeQuery = true
-    )
-    void setWorkListId(UUID accountId, UUID workListId);
+    @Query(value = "UPDATE accounts SET work_list_ids = array_append(work_list_ids, ?2) " +
+                    "WHERE id = ?1", nativeQuery = true)
+    void setWorkListId(UUID accountId, UUID workId);
 }
