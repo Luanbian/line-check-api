@@ -47,7 +47,7 @@ public class JPAWork implements IWorkRepository {
         repository.save(work);
     }
     @Override
-    public void createWork(Work data) {
+    public void create(Work data) {
         List<Work> list = repository.findWorkConflict(data.getAccountId(), data.getStartLineModel());
         findWorkConflicts(list, data.getDaysOfTheWeek());
         repository.save(data);

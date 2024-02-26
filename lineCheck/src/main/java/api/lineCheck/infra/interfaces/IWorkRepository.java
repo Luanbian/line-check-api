@@ -9,5 +9,5 @@ public interface IWorkRepository {
     List<Object[]> list();
     List<Object[]> listManager();
     void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck);
-    void createWork (Work data);
+    void create (Work data);
 }
