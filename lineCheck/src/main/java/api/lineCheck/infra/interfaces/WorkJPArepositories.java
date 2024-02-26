@@ -2,6 +2,7 @@ package api.lineCheck.infra.interfaces;
 
 import api.lineCheck.domain.work.Work;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -27,4 +28,10 @@ public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
             "INNER JOIN Vehicle ve ON ve.id = w.vehicleId")
     List<Object[]> findManagerWorkData();
     Optional<Work> findById(UUID id);
+    @Modifying
+    @Query(
+            value = "UPDATE accounts SET work_list_ids = array_append(work_list_ids, ?2) WHERE id = ?1",
+            nativeQuery = true
+    )
+    void setWorkListId(UUID accountId, UUID workListId);
 }
