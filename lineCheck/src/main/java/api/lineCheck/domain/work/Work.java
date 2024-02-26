@@ -34,7 +34,9 @@ public class Work {
     private Work(WorkProps props) {
         this.accountId = props.accountId();
         this.serviceId = props.serviceId();
-        this.daysOfTheWeek = props.daysOfTheWeeks();
+        this.daysOfTheWeek = props.daysOfTheWeeks().stream()
+                .map(day -> DayOfWeek.of(day.getValue() % 7 + 1))
+                .toList();
         this.startJourneyModel = props.startJourneyModel();
         this.startLineModel = props.startLineModel();
         this.endLineModel = props.endLineModel();
