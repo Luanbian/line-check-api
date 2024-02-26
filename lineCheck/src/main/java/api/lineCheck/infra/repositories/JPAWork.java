@@ -1,6 +1,7 @@
 package api.lineCheck.infra.repositories;
 
 import api.lineCheck.data.enums.LineChecks;
+import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.IWorkRepository;
 import api.lineCheck.infra.interfaces.WorkJPArepositories;
@@ -47,6 +48,7 @@ public class JPAWork implements IWorkRepository {
     @Override
     public void createWork(Work data) {
         repository.save(data);
+        repository.setWorkListId(data.getAccountId(), data.getId());
     }
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
