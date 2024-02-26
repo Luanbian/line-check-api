@@ -3,6 +3,7 @@ package api.lineCheck.mocks;
 import com.github.javafaker.Faker;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,14 @@ public class WorkDriverDbMock {
         Faker faker = new Faker();
         LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
         List<Object[]> data = new ArrayList<>();
-        List<DaysOfTheWeek> daysOfTheWeeks = new ArrayList<>();
-        daysOfTheWeeks.add(DaysOfTheWeek.SUNDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.MONDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.TUESDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.WEDNESDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.THURSDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.FRIDAY);
-        daysOfTheWeeks.add(DaysOfTheWeek.SATURDAY);
+        List<DayOfWeek> daysOfTheWeeks = new ArrayList<>();
+        daysOfTheWeeks.add(DayOfWeek.SUNDAY);
+        daysOfTheWeeks.add(DayOfWeek.MONDAY);
+        daysOfTheWeeks.add(DayOfWeek.TUESDAY);
+        daysOfTheWeeks.add(DayOfWeek.WEDNESDAY);
+        daysOfTheWeeks.add(DayOfWeek.THURSDAY);
+        daysOfTheWeeks.add(DayOfWeek.FRIDAY);
+        daysOfTheWeeks.add(DayOfWeek.SATURDAY);
         Object[] item = new Object[]{
                 UUID.randomUUID(),
                 "Ismael",

@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,8 +18,8 @@ public class WorkManagerDbMock {
         Faker faker = new Faker();
         LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
         List<Object[]> data = new ArrayList<>();
-        List<DaysOfTheWeek> daysOfTheWeeks = new ArrayList<>();
-        daysOfTheWeeks.add(faker.options().option(DaysOfTheWeek.class));
+        List<DayOfWeek> daysOfTheWeeks = new ArrayList<>();
+        daysOfTheWeeks.add(faker.options().option(DayOfWeek.class));
         Object[] item = new Object[]{
                 UUID.randomUUID(),
                 "Ismael",
