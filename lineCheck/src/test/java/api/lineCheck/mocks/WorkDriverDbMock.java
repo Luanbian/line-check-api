@@ -1,6 +1,5 @@
 package api.lineCheck.mocks;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import com.github.javafaker.Faker;
 
 import java.sql.Time;

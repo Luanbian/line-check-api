@@ -3,7 +3,6 @@ package api.lineCheck.data.usecase;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
@@ -33,8 +32,7 @@ public class WorkService implements IWorkService {
     public List<WorkDriver> listWorks() {
         List<Object[]> dbResponse = repository.list();
         List<WorkDriver> works = dbResponse.stream().map(this::mapToWorkDriver).toList();
-        DayOfWeek dayOfWeekNow = LocalDate.now().getDayOfWeek();
-        DaysOfTheWeek today = convertToDaysOfTheWeek(dayOfWeekNow);
+        DayOfWeek today = LocalDate.now().getDayOfWeek();
         return works.stream().filter(item -> item.getDaysOfTheWeek().contains(today)).toList();
     }
     @Override
@@ -58,7 +56,7 @@ public class WorkService implements IWorkService {
                 (String) item[6],
                 (String) item[7],
                 (String) item[8],
-                (List<DaysOfTheWeek>) item[9]
+                (List<DayOfWeek>) item[9]
         );
     }
     private WorkManager mapToWorkManager(Object[] item) {
@@ -75,18 +73,7 @@ public class WorkService implements IWorkService {
                 (String) item[9],
                 (String) item[10],
                 (String) item[11],
-                (List<DaysOfTheWeek>) item[12]
+                (List<DayOfWeek>) item[12]
         );
-    }
-    private DaysOfTheWeek convertToDaysOfTheWeek(DayOfWeek dayOfWeek) {
-        return switch (dayOfWeek) {
-            case SUNDAY -> DaysOfTheWeek.SUNDAY;
-            case MONDAY -> DaysOfTheWeek.MONDAY;
-            case TUESDAY -> DaysOfTheWeek.TUESDAY;
-            case WEDNESDAY -> DaysOfTheWeek.WEDNESDAY;
-            case THURSDAY -> DaysOfTheWeek.THURSDAY;
-            case FRIDAY -> DaysOfTheWeek.FRIDAY;
-            case SATURDAY -> DaysOfTheWeek.SATURDAY;
-        };
     }
 }

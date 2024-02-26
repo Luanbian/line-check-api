@@ -1,10 +1,10 @@
 package api.lineCheck.domain.work;
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public class Work {
     private UUID id;
     private UUID accountId;
     private UUID serviceId;
-    private List<DaysOfTheWeek> daysOfTheWeek;
+    private List<DayOfWeek> daysOfTheWeek;
     private Time startJourneyModel;
     private Time startLineModel;
     private Time endLineModel;

@@ -1,15 +1,14 @@
 package api.lineCheck.domain.work;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
-
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.UUID;
 
 public record WorkProps(
         UUID accountId,
         UUID serviceId,
-        List<DaysOfTheWeek> daysOfTheWeeks,
+        List<DayOfWeek> daysOfTheWeeks,
         Time startJourneyModel,
         Time startLineModel,
         Time endLineModel,

@@ -1,13 +1,11 @@
 package api.lineCheck.mocks;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.WorkDriver;
 import com.github.javafaker.Faker;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +21,7 @@ public class WorkDriverMock {
     public String logistic;
     public String manufacture;
     public String vehicle;
-    public List<DaysOfTheWeek> daysOfTheWeek;
+    public List<DayOfWeek> daysOfTheWeek;
     public WorkDriverMock() {
         Faker faker = new Faker();
         LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
@@ -37,7 +35,7 @@ public class WorkDriverMock {
         this.manufacture = faker.company().name();
         this.vehicle = faker.aviation().airport();
         this.daysOfTheWeek = new ArrayList<>();
-        this.daysOfTheWeek.add(faker.options().option(DaysOfTheWeek.class));
+        this.daysOfTheWeek.add(faker.options().option(DayOfWeek.class));
     }
 
     public WorkDriver main() {

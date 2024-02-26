@@ -1,10 +1,10 @@
 package api.lineCheck.domain.work;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import lombok.Data;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.UUID;
 @Data
@@ -21,11 +21,11 @@ public class WorkManager {
     private String logistic;
     private String manufacture;
     private String vehicle;
-    private List<DaysOfTheWeek> daysOfTheWeek;
+    private List<DayOfWeek> daysOfTheWeek;
     public WorkManager(
             UUID id, String name, Time startJourney, Timestamp startJourneyReal,
             Time startLine, Timestamp startLineReal, Time endLine, Timestamp endLineReal,
-            String se, String lo, String man, String ve, List<DaysOfTheWeek> days
+            String se, String lo, String man, String ve, List<DayOfWeek> days
     ) {
         this.id = id;
         this.accountName = name;

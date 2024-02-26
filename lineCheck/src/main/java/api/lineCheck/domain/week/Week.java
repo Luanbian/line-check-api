@@ -2,6 +2,8 @@ package api.lineCheck.domain.week;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.DayOfWeek;
 import java.util.UUID;
 @Data
 @NoArgsConstructor
@@ -12,5 +14,5 @@ public class Week {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private DaysOfTheWeek daysOfTheWeek;
+    private DayOfWeek daysOfTheWeek;
 }

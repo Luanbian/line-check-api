@@ -1,9 +1,9 @@
 package api.lineCheck.domain.work;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,10 +18,10 @@ public class WorkDriver {
     private String logistic;
     private String manufacture;
     private String vehicle;
-    private List<DaysOfTheWeek> daysOfTheWeek;
+    private List<DayOfWeek> daysOfTheWeek;
     public WorkDriver(
             UUID id, String name, Time startJourney, Time startLine, Time endLine,
-            String se, String lo, String man, String ve, List<DaysOfTheWeek> days
+            String se, String lo, String man, String ve, List<DayOfWeek> days
     ) {
         this.id = id;
         this.accountName = name;

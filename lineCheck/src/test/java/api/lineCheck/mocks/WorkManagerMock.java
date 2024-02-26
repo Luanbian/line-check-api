@@ -1,11 +1,11 @@
 package api.lineCheck.mocks;
 
-import api.lineCheck.domain.week.DaysOfTheWeek;
 import api.lineCheck.domain.work.WorkManager;
 import com.github.javafaker.Faker;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,7 +27,7 @@ public class WorkManagerMock {
         public String logistic;
         public String manufacture;
         public String vehicle;
-        public List<DaysOfTheWeek> daysOfTheWeek;
+        public List<DayOfWeek> daysOfTheWeek;
         public WorkManagerMock() {
             Faker faker = new Faker();
             LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
@@ -45,7 +45,7 @@ public class WorkManagerMock {
             this.manufacture = faker.company().name();
             this.vehicle = faker.aviation().airport();
             this.daysOfTheWeek = new ArrayList<>();
-            this.daysOfTheWeek.add(faker.options().option(DaysOfTheWeek.class));
+            this.daysOfTheWeek.add(faker.options().option(DayOfWeek.class));
         }
         public WorkManager main() {
             return new WorkManager(
