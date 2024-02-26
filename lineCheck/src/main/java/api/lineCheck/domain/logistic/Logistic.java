@@ -17,4 +17,10 @@ public class Logistic {
     private UUID id;
     private String logistic;
     private List<UUID> workListIds;
+    private Logistic (String data) {
+        this.logistic = data;
+    }
+    public static Logistic create(String data) {
+        return new Logistic(data);
+    }
 }
