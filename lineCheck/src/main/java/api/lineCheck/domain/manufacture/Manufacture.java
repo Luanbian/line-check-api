@@ -19,4 +19,10 @@ public class Manufacture {
     private String manufacture;
     @OneToMany(mappedBy = "manufacture")
     private List<Work> works;
+    private Manufacture(String data) {
+        this.manufacture = data;
+    }
+    public static Manufacture create(String data) {
+        return new Manufacture(data);
+    }
 }
