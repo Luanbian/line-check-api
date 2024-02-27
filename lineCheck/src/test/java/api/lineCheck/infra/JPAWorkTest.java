@@ -3,7 +3,7 @@ package api.lineCheck.infra;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.work.Work;
-import api.lineCheck.infra.interfaces.WorkJPArepositories;
+import api.lineCheck.infra.interfaces.JPAs.WorkJPArepositories;
 import api.lineCheck.infra.repositories.JPAWork;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

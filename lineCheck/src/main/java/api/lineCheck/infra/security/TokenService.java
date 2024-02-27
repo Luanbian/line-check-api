@@ -1,7 +1,7 @@
 package api.lineCheck.infra.security;
 
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.ITokenService;
+import api.lineCheck.infra.interfaces.persistances.ITokenService;
 import api.lineCheck.presentation.exceptions.InvalidTokenException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

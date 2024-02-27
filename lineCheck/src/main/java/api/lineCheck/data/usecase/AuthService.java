@@ -2,8 +2,8 @@ package api.lineCheck.data.usecase;
 
 import api.lineCheck.data.interfaces.IAuthService;
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.IAuthRepository;
-import api.lineCheck.infra.interfaces.ITokenService;
+import api.lineCheck.infra.interfaces.persistances.IAuthRepository;
+import api.lineCheck.infra.interfaces.persistances.ITokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

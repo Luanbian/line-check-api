@@ -1,7 +1,7 @@
 package api.lineCheck.infra;
 
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
+import api.lineCheck.infra.interfaces.JPAs.AccountJPArepositories;
 import api.lineCheck.infra.repositories.JPAAuth;
 import api.lineCheck.mocks.AccountPropsMock;
 import static org.junit.jupiter.api.Assertions.*;

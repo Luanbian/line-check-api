@@ -1,8 +1,8 @@
 package api.lineCheck.infra.repositories;
 
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
-import api.lineCheck.infra.interfaces.IAuthRepository;
+import api.lineCheck.infra.interfaces.JPAs.AccountJPArepositories;
+import api.lineCheck.infra.interfaces.persistances.IAuthRepository;
 import api.lineCheck.presentation.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

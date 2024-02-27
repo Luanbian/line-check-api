@@ -1,4 +1,4 @@
-package api.lineCheck.infra.interfaces;
+package api.lineCheck.infra.interfaces.persistances;
 
 import api.lineCheck.domain.account.Account;
 

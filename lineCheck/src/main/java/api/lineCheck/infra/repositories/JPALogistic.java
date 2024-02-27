@@ -1,8 +1,8 @@
 package api.lineCheck.infra.repositories;
 
 import api.lineCheck.domain.logistic.Logistic;
-import api.lineCheck.infra.interfaces.IRepository;
-import api.lineCheck.infra.interfaces.LogisticJPArepositories;
+import api.lineCheck.infra.interfaces.persistances.IRepository;
+import api.lineCheck.infra.interfaces.JPAs.LogisticJPArepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package api.lineCheck.infra.security;
 
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
+import api.lineCheck.infra.interfaces.JPAs.AccountJPArepositories;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

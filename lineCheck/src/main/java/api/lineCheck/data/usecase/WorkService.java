@@ -7,7 +7,7 @@ import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.domain.work.WorkProps;
-import api.lineCheck.infra.interfaces.IWorkRepository;
+import api.lineCheck.infra.interfaces.persistances.IWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

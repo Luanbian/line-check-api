@@ -1,4 +1,4 @@
-package api.lineCheck.infra.interfaces;
+package api.lineCheck.infra.interfaces.JPAs;
 
 import api.lineCheck.domain.logistic.Logistic;
 import org.springframework.data.jpa.repository.JpaRepository;

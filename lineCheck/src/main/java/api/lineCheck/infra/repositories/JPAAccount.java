@@ -1,8 +1,8 @@
 package api.lineCheck.infra.repositories;
 
 import api.lineCheck.domain.account.Account;
-import api.lineCheck.infra.interfaces.AccountJPArepositories;
-import api.lineCheck.infra.interfaces.IRepository;
+import api.lineCheck.infra.interfaces.JPAs.AccountJPArepositories;
+import api.lineCheck.infra.interfaces.persistances.IRepository;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;

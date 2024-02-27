@@ -3,7 +3,7 @@ package api.lineCheck.data.usecase;
 import api.lineCheck.core.dtos.ManufactureDto;
 import api.lineCheck.data.interfaces.IService;
 import api.lineCheck.domain.manufacture.Manufacture;
-import api.lineCheck.infra.interfaces.IRepository;
+import api.lineCheck.infra.interfaces.persistances.IRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,8 +2,8 @@ package api.lineCheck.infra.repositories;
 
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.domain.work.Work;
-import api.lineCheck.infra.interfaces.IWorkRepository;
-import api.lineCheck.infra.interfaces.WorkJPArepositories;
+import api.lineCheck.infra.interfaces.persistances.IWorkRepository;
+import api.lineCheck.infra.interfaces.JPAs.WorkJPArepositories;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import api.lineCheck.presentation.exceptions.LineConflictException;
 import api.lineCheck.presentation.exceptions.NotFoundWorkException;
