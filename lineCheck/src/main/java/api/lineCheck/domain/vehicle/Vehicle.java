@@ -18,4 +18,10 @@ public class Vehicle {
     private String vehicle;
     @OneToMany(mappedBy = "vehicle")
     private List<Work> works;
+    private Vehicle(String data) {
+        this.vehicle = data;
+    }
+    public static Vehicle create(String data) {
+        return new Vehicle(data);
+    }
 }
