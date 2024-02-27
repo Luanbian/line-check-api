@@ -1,22 +1,19 @@
 package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.LogisticDto;
-import api.lineCheck.data.interfaces.ILogisticService;
+import api.lineCheck.data.interfaces.IService;
 import api.lineCheck.domain.logistic.Logistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/logistic")
 public class LogisticController {
-    private final ILogisticService service;
+    private final IService<Logistic, LogisticDto> service;
     @Autowired
-    public LogisticController(ILogisticService service) {
+    public LogisticController(IService<Logistic, LogisticDto> service) {
         this.service = service;
     }
     @PostMapping
