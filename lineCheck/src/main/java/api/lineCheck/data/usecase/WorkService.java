@@ -28,7 +28,7 @@ public class WorkService implements IWorkService {
     public Work create(WorkDto dto) {
         WorkProps props = convertDtoToProps(dto);
         Work work = Work.create(props);
-        repository.createWork(work);
+        repository.create(work);
         return work;
     }
     @Override
