@@ -1,5 +1,6 @@
 package api.lineCheck.domain.vehicle;
 
+import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,5 +16,6 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String vehicle;
-    private List<UUID> workListIds;
+    @OneToMany(mappedBy = "vehicle")
+    private List<Work> works;
 }

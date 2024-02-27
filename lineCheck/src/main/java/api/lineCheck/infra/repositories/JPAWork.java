@@ -51,7 +51,6 @@ public class JPAWork implements IWorkRepository {
         List<Work> list = repository.findWorkConflict(data.getAccountId(), data.getStartLineModel());
         findWorkConflicts(list, data.getDaysOfTheWeek());
         repository.save(data);
-        repository.setWorkListId(data.getAccountId(), data.getId());
     }
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);

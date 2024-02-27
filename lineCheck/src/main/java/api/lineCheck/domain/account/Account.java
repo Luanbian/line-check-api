@@ -1,5 +1,6 @@
 package api.lineCheck.domain.account;
 
+import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,8 @@ public class Account implements UserDetails {
     private String phone;
     private String password;
     private Role role;
-    private List<UUID> workListIds;
+    @OneToMany(mappedBy = "account")
+    private List<Work> works;
     private Account (AccountProps props) {
         this.name = props.name();
         this.email = props.email();

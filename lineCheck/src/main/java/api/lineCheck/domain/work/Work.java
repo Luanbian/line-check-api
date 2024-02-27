@@ -1,4 +1,10 @@
 package api.lineCheck.domain.work;
+import api.lineCheck.core.dtos.LogisticDto;
+import api.lineCheck.domain.account.Account;
+import api.lineCheck.domain.logistic.Logistic;
+import api.lineCheck.domain.manufacture.Manufacture;
+import api.lineCheck.domain.service.DriverService;
+import api.lineCheck.domain.vehicle.Vehicle;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +23,19 @@ public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(name = "account_id")
     private UUID accountId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", insertable = false, updatable = false, referencedColumnName = "id")
+    private Account account;
+
+    @Column(name = "service_id")
     private UUID serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", insertable = false, updatable = false)
+    private DriverService service;
+
     private List<DayOfWeek> daysOfTheWeek;
     private Time startJourneyModel;
     private Time startLineModel;
@@ -28,9 +45,24 @@ public class Work {
     private Timestamp endLineReal;
     private Time timeWorkedModel;
     private Time timeWorkedReal;
+
+    @Column(name = "logistic_id")
     private UUID logisticId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "logistic_id", insertable = false, updatable = false)
+    private Logistic logistic;
+
+    @Column(name = "vehicle_id")
     private UUID vehicleId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicle_id", insertable = false, updatable = false)
+    private Vehicle vehicle;
+
+    @Column(name = "manufacture_id")
     private UUID manufactureId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manufacture_id", insertable = false, updatable = false)
+    private Manufacture manufacture;
     private Work(WorkProps props) {
         this.accountId = props.accountId();
         this.serviceId = props.serviceId();

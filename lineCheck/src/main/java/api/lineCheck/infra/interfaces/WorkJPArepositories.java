@@ -1,13 +1,10 @@
 package api.lineCheck.infra.interfaces;
 
 import api.lineCheck.domain.work.Work;
-import org.hibernate.type.descriptor.jdbc.SmallIntJdbcType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Time;
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,10 +28,6 @@ public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
             "INNER JOIN Vehicle ve ON ve.id = w.vehicleId")
     List<Object[]> findManagerWorkData();
     Optional<Work> findById(UUID id);
-    @Modifying
-    @Query(value = "UPDATE accounts SET work_list_ids = array_append(work_list_ids, ?2) " +
-                    "WHERE id = ?1", nativeQuery = true)
-    void setWorkListId(UUID accountId, UUID workId);
     @Query("SELECT w FROM Work w " +
             "WHERE w.accountId = :accountId " +
             "AND w.startLineModel = :startLine ")
