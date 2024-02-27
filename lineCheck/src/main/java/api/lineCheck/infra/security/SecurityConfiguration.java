@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "api/checkpoint/line").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/logistic").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/manufacture").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.POST, "api/service").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

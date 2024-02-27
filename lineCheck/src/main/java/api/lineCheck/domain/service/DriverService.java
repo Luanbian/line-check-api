@@ -4,8 +4,7 @@ import api.lineCheck.domain.work.Work;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +18,10 @@ public class DriverService {
     private String service;
     @OneToMany(mappedBy = "service")
     private List<Work> works;
+    private DriverService (String data) {
+        this.service = data;
+    }
+    public static DriverService create (String data) {
+        return new DriverService(data);
+    }
 }
