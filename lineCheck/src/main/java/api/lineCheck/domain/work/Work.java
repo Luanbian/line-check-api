@@ -1,5 +1,4 @@
 package api.lineCheck.domain.work;
-import api.lineCheck.core.dtos.LogisticDto;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.logistic.Logistic;
 import api.lineCheck.domain.manufacture.Manufacture;
@@ -75,8 +74,13 @@ public class Work {
         this.logisticId = props.logisticId();
         this.vehicleId = props.vehicleId();
         this.manufactureId = props.manufactureId();
+        this.timeWorkedModel = calculateTotalTimeWorkedModel();
     }
     public static Work create(WorkProps props) {
         return new Work(props);
+    }
+    private Time calculateTotalTimeWorkedModel() {
+        long total = this.endLineModel.getTime() - this.startJourneyModel.getTime();
+        return new Time(total);
     }
 }
