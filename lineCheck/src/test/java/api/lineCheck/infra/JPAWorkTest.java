@@ -19,9 +19,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class JPAWorkTest {
@@ -50,11 +49,8 @@ public class JPAWorkTest {
         UUID accountId = UUID.fromString(requestDriverMock.accountId);
         LineChecks lineCheck = LineChecks.STARTJOURNEYREAL;
 
-        Account account = mock(Account.class);
-        when(account.getId()).thenReturn(accountId);
-
         Work work = mock(Work.class);
-        when(work.getAccount()).thenReturn(account);
+        when(work.getAccountId()).thenReturn(accountId);
         when(repository.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
@@ -67,11 +63,8 @@ public class JPAWorkTest {
         UUID accountId = UUID.fromString(requestDriverMock.accountId);
         LineChecks lineCheck = LineChecks.STARTLINEREAL;
 
-        Account account = mock(Account.class);
-        when(account.getId()).thenReturn(accountId);
-
         Work work = mock(Work.class);
-        when(work.getAccount()).thenReturn(account);
+        when(work.getAccountId()).thenReturn(accountId);
         when(repository.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
@@ -81,14 +74,15 @@ public class JPAWorkTest {
     @Test
     public void should_update_driver_end_line_real() {
         String workId = requestDriverMock.workId;
+        Timestamp endTime = requestDriverMock.endLineReal;
+        Timestamp startTime = requestDriverMock.startJourneyReal;
         UUID accountId = UUID.fromString(requestDriverMock.accountId);
         LineChecks lineCheck = LineChecks.ENDLINEREAL;
 
-        Account account = mock(Account.class);
-        when(account.getId()).thenReturn(accountId);
-
         Work work = mock(Work.class);
-        when(work.getAccount()).thenReturn(account);
+        when(work.getAccountId()).thenReturn(accountId);
+        when(work.getEndLineReal()).thenReturn(endTime);
+        when(work.getStartJourneyReal()).thenReturn(startTime);
         when(repository.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
@@ -109,11 +103,8 @@ public class JPAWorkTest {
         String accountId = requestDriverMock.accountId;
         LineChecks lineCheck = LineChecks.STARTJOURNEYREAL;
 
-        Account account = mock(Account.class);
-        when(account.getId()).thenReturn(UUID.randomUUID());
-
         Work work = mock(Work.class);
-        when(work.getAccount()).thenReturn(account);
+        when(work.getAccountId()).thenReturn(UUID.randomUUID());
         when(repository.findById(any())).thenReturn(Optional.of(work));
 
         assertThrows(ActionNotPermittedException.class, () -> sut.updateDriverLineChecks(workId, accountId, lineCheck));
