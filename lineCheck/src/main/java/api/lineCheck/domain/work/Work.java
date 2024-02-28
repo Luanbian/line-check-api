@@ -75,8 +75,13 @@ public class Work {
         this.logisticId = props.logisticId();
         this.vehicleId = props.vehicleId();
         this.manufactureId = props.manufactureId();
+        this.timeWorkedModel = calculateTotalTimeWorkedModel();
     }
     public static Work create(WorkProps props) {
         return new Work(props);
+    }
+    private Time calculateTotalTimeWorkedModel() {
+        long total = this.endLineModel.getTime() - this.startJourneyModel.getTime();
+        return new Time(total);
     }
 }
