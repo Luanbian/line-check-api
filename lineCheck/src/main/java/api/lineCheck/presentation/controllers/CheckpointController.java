@@ -7,6 +7,7 @@ import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
+import api.lineCheck.presentation.exceptions.LineConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -62,8 +63,10 @@ public class CheckpointController {
         try {
             Work work = service.create(dto);
             return ResponseEntity.ok(work);
+        } catch (LineConflictException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
-            return ResponseEntity.internalServerError().body(ex.getMessage());
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
     }
 }

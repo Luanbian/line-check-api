@@ -1,15 +1,18 @@
 package api.lineCheck.presentation;
 
+import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.usecase.WorkService;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
 import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverMock;
+import api.lineCheck.mocks.WorkDtoMock;
 import api.lineCheck.mocks.WorkManagerMock;
 import api.lineCheck.presentation.controllers.CheckpointController;
 import static org.junit.jupiter.api.Assertions.*;
 
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
+import api.lineCheck.presentation.exceptions.LineConflictException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +34,7 @@ public class CheckpointControllerTest {
     public WorkDriverMock workDriverMock = new WorkDriverMock();
     public WorkManagerMock workManagerMock = new WorkManagerMock();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
+    public WorkDtoMock workDtoMock = new WorkDtoMock();
     @Test
     public void should_return_work_list () {
         List<WorkDriver> workListMock = new ArrayList<>();
@@ -111,6 +115,33 @@ public class CheckpointControllerTest {
             throw new Exception();
         }).when(service).updateDriverLineChecks(workId, accountId, marker);
         ResponseEntity response = sut.driverUpdateLineCheck(workId, accountId, marker);
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(response.getBody(), "Erro interno do servidor");
+    }
+    @Test
+    public void should_return_ok_if_create_new_line_with_success() {
+        WorkDto dto = workDtoMock.main();
+        ResponseEntity response = sut.createLine(dto);
+        verify(service, times(1)).create(dto);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    public void should_throw_LineConflictException_if_exists_conflict_to_create_line() {
+        WorkDto dto = workDtoMock.main();
+        doAnswer(invocation -> {
+            throw new LineConflictException();
+        }).when(service).create(dto);
+        ResponseEntity response = sut.createLine(dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Existe um conflito de horários e datas");
+    }
+    @Test
+    public void should_fall_in_catch_if_service_throws() {
+        WorkDto dto = workDtoMock.main();
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).create(dto);
+        ResponseEntity response = sut.createLine(dto);
         assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         assertEquals(response.getBody(), "Erro interno do servidor");
     }
