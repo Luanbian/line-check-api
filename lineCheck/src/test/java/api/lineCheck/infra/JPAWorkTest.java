@@ -11,6 +11,7 @@ import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverDbMock;
 import api.lineCheck.mocks.WorkManagerDbMock;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
+import api.lineCheck.presentation.exceptions.LineConflictException;
 import api.lineCheck.presentation.exceptions.NotFoundWorkException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,6 +92,14 @@ public class JPAWorkTest {
         verify(repository).save(work);
     }
     @Test
+    public void should_save_new_work_in_db_if_success() {
+        List<Work> workList = new ArrayList<>();
+        Work work = mock(Work.class);
+        when(repository.findWorkConflict(any(), any())).thenReturn(workList);
+        sut.create(work);
+        verify(repository, times(1)).save(work);
+    }
+    @Test
     public void should_throw_NotFoundWorkException_if_optional_work_return_empty() {
         String workId = requestDriverMock.workId;
         String accountId = requestDriverMock.accountId;
@@ -108,5 +118,16 @@ public class JPAWorkTest {
         when(repository.findById(any())).thenReturn(Optional.of(work));
 
         assertThrows(ActionNotPermittedException.class, () -> sut.updateDriverLineChecks(workId, accountId, lineCheck));
+    }
+    @Test
+    public void should_throw_LineConflictException_if_dayOfWeek_list_match_with_list_from_db() {
+        List<DayOfWeek> dayOfWeeks = new ArrayList<>();
+        dayOfWeeks.add(DayOfWeek.FRIDAY);
+        List<Work> workList = new ArrayList<>();
+        Work work = mock(Work.class);
+        when(work.getDaysOfTheWeek()).thenReturn(dayOfWeeks);
+        workList.add(work);
+        when(repository.findWorkConflict(any(), any())).thenReturn(workList);
+        assertThrows(LineConflictException.class, () -> sut.create(work));
     }
 }
