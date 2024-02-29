@@ -63,4 +63,10 @@ public class WorkServiceTest {
         sut.create(dtoMock);
         verify(repository, times(1)).create(work);
     }
+    @Test
+    public void should_throw_IllegalStateException_if_day_of_the_week_provide_is_invalid() {
+        WorkDto dto = dtoMock;
+        dto.daysOfTheWeeks().add("Invalid");
+        assertThrows(IllegalStateException.class, () -> sut.create(dto));
+    }
 }
