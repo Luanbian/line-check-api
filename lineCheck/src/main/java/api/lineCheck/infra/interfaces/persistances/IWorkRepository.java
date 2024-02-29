@@ -8,6 +8,7 @@ import java.util.List;
 public interface IWorkRepository {
     List<Object[]> list();
     List<Object[]> listManager();
+    List<Object[]> listEntityNames();
     void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck);
     void create (Work data);
 }

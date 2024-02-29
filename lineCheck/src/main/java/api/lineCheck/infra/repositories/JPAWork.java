@@ -31,6 +31,11 @@ public class JPAWork implements IWorkRepository {
         return db.findManagerWorkData();
     }
     @Override
+    public List<Object[]> listEntityNames() {
+        return db.findEntityNames();
+    }
+
+    @Override
     public void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck) {
         Work work = this.findWorkById(workId);
         this.compareWorkAccountAndLoggedAccount(work, accountId);
