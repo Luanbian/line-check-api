@@ -24,11 +24,17 @@ public class WorkPropsMock {
     public WorkPropsMock() {
         Faker faker = new Faker();
         LocalTime localTime = faker.date().past(1, TimeUnit.DAYS).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
+        List<DayOfWeek> daysOfTheWeeks = new ArrayList<>();
+        daysOfTheWeeks.add(DayOfWeek.SUNDAY);
+        daysOfTheWeeks.add(DayOfWeek.MONDAY);
+        daysOfTheWeeks.add(DayOfWeek.TUESDAY);
+        daysOfTheWeeks.add(DayOfWeek.WEDNESDAY);
+        daysOfTheWeeks.add(DayOfWeek.THURSDAY);
+        daysOfTheWeeks.add(DayOfWeek.FRIDAY);
+        daysOfTheWeeks.add(DayOfWeek.SATURDAY);
         this.accountId = UUID.randomUUID();
         this.serviceId = UUID.randomUUID();
-        this.daysOfTheWeeks = new ArrayList<>();
-        daysOfTheWeeks.add(faker.options().option(DayOfWeek.class));
-        daysOfTheWeeks.add(faker.options().option(DayOfWeek.class));
+        this.daysOfTheWeeks = daysOfTheWeeks;
         this.startJourneyModel = Time.valueOf(localTime);
         this.startLineModel = Time.valueOf(localTime);
         this.endLineModel = Time.valueOf(localTime);
