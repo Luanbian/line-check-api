@@ -2,8 +2,8 @@ package api.lineCheck.presentation;
 
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.usecase.WorkService;
-import api.lineCheck.domain.work.WorkDriver;
-import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.data.utils.entities.WorkDriver;
+import api.lineCheck.data.utils.entities.WorkManager;
 import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverMock;
 import api.lineCheck.mocks.WorkDtoMock;

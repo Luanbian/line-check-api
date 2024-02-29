@@ -1,6 +1,6 @@
 package api.lineCheck.mocks;
 
-import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.data.utils.entities.WorkManager;
 import com.github.javafaker.Faker;
 
 import java.sql.Time;

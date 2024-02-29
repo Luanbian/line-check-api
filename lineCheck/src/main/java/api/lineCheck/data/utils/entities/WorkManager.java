@@ -1,4 +1,4 @@
-package api.lineCheck.domain.work;
+package api.lineCheck.data.utils.entities;
 
 import lombok.Data;
 
