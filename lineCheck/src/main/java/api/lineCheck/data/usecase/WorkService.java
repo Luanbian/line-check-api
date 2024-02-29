@@ -3,6 +3,7 @@ package api.lineCheck.data.usecase;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
+import api.lineCheck.data.utils.entities.EntityNames;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
@@ -40,13 +41,26 @@ public class WorkService implements IWorkService {
     }
     @Override
     public List<WorkManager> listManagerWorks() {
-        List<Object[]> dbResponse = repository.listManager();
-        return dbResponse.stream().map(this::mapToWorkManager).toList();
+        List<Object[]> dbResponseWorks = repository.listManager();
+        return dbResponseWorks.stream().map(this::mapToWorkManager).toList();
     }
+    @Override
+    public List<EntityNames> listEntityNames() {
+        List<Object[]> dbResponseEntities = repository.listEntityNames();
+        return dbResponseEntities.stream().map(this::mapToEntityNames).toList();
+    }
+
     @Override
     public void updateDriverLineChecks(String workId, String accountId, String marker) {
         LineChecks lineCheck = LineChecks.valueOf(marker);
         repository.updateDriverLineChecks(workId, accountId, lineCheck);
+    }
+    private EntityNames mapToEntityNames(Object[] item) {
+        return new EntityNames(
+                (UUID) item[0],
+                (String) item[1],
+                (String) item[2]
+        );
     }
     private WorkDriver mapToWorkDriver(Object[] item) {
         return new WorkDriver(
