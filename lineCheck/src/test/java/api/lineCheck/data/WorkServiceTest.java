@@ -1,15 +1,17 @@
 package api.lineCheck.data;
 
+import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.usecase.WorkService;
+import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
 import api.lineCheck.domain.work.WorkManager;
+import api.lineCheck.domain.work.WorkProps;
 import api.lineCheck.infra.repositories.JPAWork;
-import api.lineCheck.mocks.PutRequestDriverMock;
-import api.lineCheck.mocks.WorkDriverDbMock;
+import api.lineCheck.mocks.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import api.lineCheck.mocks.WorkManagerDbMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +30,8 @@ public class WorkServiceTest {
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
+    public WorkDto dtoMock = new WorkDtoMock().main();
+    public WorkProps propsMock = new WorkPropsMock().main();
     @Test
     public void should_return_list_of_WorkDriver() {
         when(repository.list()).thenReturn(dbDriverMock);
@@ -52,5 +56,11 @@ public class WorkServiceTest {
         LineChecks line = LineChecks.valueOf(marker);
         sut.updateDriverLineChecks(workId, accountId, marker);
         verify(repository,times(1)).updateDriverLineChecks(workId, accountId, line);
+    }
+    @Test
+    public void should_create_new_work() {
+        Work work = Work.create(propsMock);
+        sut.create(dtoMock);
+        verify(repository, times(1)).create(work);
     }
 }
