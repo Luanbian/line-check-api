@@ -21,13 +21,13 @@ public class JPAAccountTest {
     @InjectMocks
     public JPAAccount sut;
     @Mock
-    public AccountJPArepositories JPARepository;
+    public AccountJPArepositories db;
     public AccountPropsMock propsMock = new AccountPropsMock();
     @Test
     public void should_be_able_to_save_account_in_database() {
         Account account = Account.create(propsMock.main());
         sut.create(account);
-        verify(JPARepository, times(1)).save(account);
+        verify(db, times(1)).save(account);
     }
     @Test
     public void should_throw_Email_Already_exists_exception() {
@@ -35,10 +35,10 @@ public class JPAAccountTest {
         AccountProps props = propsMock.main();
         props = new AccountProps(props.name(), existingEmail, props.phone(), props.password(), props.role());
         Account data = Account.create(props);
-        when(JPARepository.findByEmail(existingEmail))
+        when(db.findByEmail(existingEmail))
                 .thenReturn(Account.create(props));
         assertThrows(EmailAlreadyExistsException.class, () -> sut.create(data));
-        verify(JPARepository, never()).save(data);
+        verify(db, never()).save(data);
     }
     @Test
     public void should_throw_Phone_Already_exists_exception() {
@@ -46,9 +46,9 @@ public class JPAAccountTest {
         AccountProps props = propsMock.main();
         props = new AccountProps(props.name(), props.email(), existingPhone, props.password(), props.role());
         Account data = Account.create(props);
-        when(JPARepository.findByPhone(existingPhone))
+        when(db.findByPhone(existingPhone))
                 .thenReturn(Collections.singletonList(Account.create(props)));
         assertThrows(PhoneAlreadyExistsException.class, () -> sut.create(data));
-        verify(JPARepository, never()).save(data);
+        verify(db, never()).save(data);
     }
 }

@@ -16,13 +16,13 @@ public class JPADriverServiceTest {
     @InjectMocks
     public JPADriverService sut;
     @Mock
-    public DriverServiceJPArepositories dbMock;
+    public DriverServiceJPArepositories db;
     @Test
     public void should_save_new_driver_service_in_db() {
         Faker faker = new Faker();
         String service = faker.harryPotter().spell();
         DriverService driverService = DriverService.create(service);
         sut.create(driverService);
-        verify(dbMock, times(1)).save(driverService);
+        verify(db, times(1)).save(driverService);
     }
 }

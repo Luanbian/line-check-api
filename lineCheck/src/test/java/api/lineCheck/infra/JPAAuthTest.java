@@ -18,14 +18,14 @@ public class JPAAuthTest {
     @InjectMocks
     public JPAAuth sut;
     @Mock
-    public AccountJPArepositories JPARepository;
+    public AccountJPArepositories db;
     public AccountPropsMock propsMock = new AccountPropsMock();
     @Test
     public void should_find_account_by_credentials() {
         Account foundAccount = Account.create(propsMock.main());
         String email = propsMock.email;
         String password = propsMock.password;
-        when(JPARepository.findByEmailAndPassword(email, password))
+        when(db.findByEmailAndPassword(email, password))
                 .thenReturn(foundAccount);
         Account account = sut.authByCredentials(email, password);
         assertNotNull(account);
@@ -33,7 +33,7 @@ public class JPAAuthTest {
     }
     @Test
     public void should_throw_invalid_credentials_exception_if_repository_return_null() {
-        when(JPARepository.findByEmailAndPassword(propsMock.email, propsMock.password)).thenReturn(null);
+        when(db.findByEmailAndPassword(propsMock.email, propsMock.password)).thenReturn(null);
         assertThrows(InvalidCredentialsException.class, () -> sut.authByCredentials(propsMock.email, propsMock.password));
     }
 }

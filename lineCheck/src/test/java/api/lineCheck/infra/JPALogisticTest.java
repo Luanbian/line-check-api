@@ -16,13 +16,13 @@ public class JPALogisticTest {
     @InjectMocks
     public JPALogistic sut;
     @Mock
-    public LogisticJPArepositories dbMock;
+    public LogisticJPArepositories db;
     @Test
     public void should_save_new_logistic_in_db() {
         Faker faker = new Faker();
         String logisticName = faker.lordOfTheRings().location();
         Logistic logistic = Logistic.create(logisticName);
         sut.create(logistic);
-        verify(dbMock, times(1)).save(logistic);
+        verify(db, times(1)).save(logistic);
     }
 }

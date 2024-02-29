@@ -8,13 +8,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class JPALogistic implements IRepository<Logistic> {
-    private final LogisticJPArepositories repository;
+    private final LogisticJPArepositories db;
     @Autowired
-    public JPALogistic (LogisticJPArepositories repository) {
-        this.repository = repository;
+    public JPALogistic (LogisticJPArepositories db) {
+        this.db = db;
     }
     @Override
     public void create(Logistic data) {
-        repository.save(data);
+        db.save(data);
     }
 }

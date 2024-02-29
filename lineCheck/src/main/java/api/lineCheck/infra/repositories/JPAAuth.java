@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class JPAAuth implements IAuthRepository {
-    private final AccountJPArepositories JPARepository;
+    private final AccountJPArepositories db;
     @Autowired
-    public JPAAuth(AccountJPArepositories JPARepository) {
-        this.JPARepository = JPARepository;
+    public JPAAuth(AccountJPArepositories db) {
+        this.db = db;
     }
     @Override
     public Account authByCredentials(String email, String password) {
-        Account account = this.JPARepository.findByEmailAndPassword(email, password);
+        Account account = this.db.findByEmailAndPassword(email, password);
         if (account == null) {
             throw new InvalidCredentialsException();
         }

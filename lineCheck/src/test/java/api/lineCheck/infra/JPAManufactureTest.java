@@ -16,13 +16,13 @@ public class JPAManufactureTest {
     @InjectMocks
     public JPAManufacture sut;
     @Mock
-    public ManufactureJPArepositories dbMock;
+    public ManufactureJPArepositories db;
     @Test
     public void should_save_new_manufacture_in_db() {
         Faker faker = new Faker();
         String manufactureName = faker.company().name();
         Manufacture manufacture = Manufacture.create(manufactureName);
         sut.create(manufacture);
-        verify(dbMock, times(1)).save(manufacture);
+        verify(db, times(1)).save(manufacture);
     }
 }

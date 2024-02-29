@@ -17,18 +17,18 @@ import java.util.*;
 
 @Repository
 public class JPAWork implements IWorkRepository {
-    private final WorkJPArepositories repository;
+    private final WorkJPArepositories db;
     @Autowired
-    public JPAWork(WorkJPArepositories repository) {
-        this.repository = repository;
+    public JPAWork(WorkJPArepositories db) {
+        this.db = db;
     }
     @Override
     public List<Object[]> list() {
-        return repository.findDriverWorkData();
+        return db.findDriverWorkData();
     }
     @Override
     public List<Object[]> listManager() {
-        return repository.findManagerWorkData();
+        return db.findManagerWorkData();
     }
     @Override
     public void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck) {
@@ -44,17 +44,17 @@ public class JPAWork implements IWorkRepository {
                 work.setTimeWorkedReal(diff);
             }
         }
-        repository.save(work);
+        db.save(work);
     }
     @Override
     public void create(Work data) {
-        List<Work> list = repository.findWorkConflict(data.getAccountId(), data.getStartLineModel());
+        List<Work> list = db.findWorkConflict(data.getAccountId(), data.getStartLineModel());
         findWorkConflicts(list, data.getDaysOfTheWeek());
-        repository.save(data);
+        db.save(data);
     }
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
-        Optional<Work> optionalWork = repository.findById(uuidWorkId);
+        Optional<Work> optionalWork = db.findById(uuidWorkId);
         if (optionalWork.isEmpty()) {
             throw new NotFoundWorkException();
         }

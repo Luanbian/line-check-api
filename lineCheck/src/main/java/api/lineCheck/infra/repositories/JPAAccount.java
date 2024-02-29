@@ -13,25 +13,25 @@ import java.util.List;
 
 @Repository
 public class JPAAccount implements IRepository<Account> {
-    private final AccountJPArepositories JPARepository;
+    private final AccountJPArepositories db;
     @Autowired
-    public JPAAccount(AccountJPArepositories JPARepository) {
-        this.JPARepository = JPARepository;
+    public JPAAccount(AccountJPArepositories db) {
+        this.db = db;
     }
     @Override
     public void create(Account data) {
         this.EmailAlreadyExists(data.getEmail());
         this.PhoneAlreadyExists(data.getPhone());
-        JPARepository.save(data);
+        db.save(data);
     }
     private void EmailAlreadyExists(String email) {
-        UserDetails accounts = JPARepository.findByEmail(email);
+        UserDetails accounts = db.findByEmail(email);
         if (accounts != null) {
             throw new EmailAlreadyExistsException();
         }
     }
     private void PhoneAlreadyExists(String phone) {
-        List<Account> accounts = JPARepository.findByPhone(phone);
+        List<Account> accounts = db.findByPhone(phone);
         if (!accounts.isEmpty()) {
             throw new PhoneAlreadyExistsException();
         }

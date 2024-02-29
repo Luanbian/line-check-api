@@ -1,7 +1,6 @@
 package api.lineCheck.infra;
 
 import api.lineCheck.data.enums.LineChecks;
-import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.JPAs.WorkJPArepositories;
 import api.lineCheck.infra.repositories.JPAWork;
@@ -29,19 +28,19 @@ public class JPAWorkTest {
     @InjectMocks
     public JPAWork sut;
     @Mock
-    public WorkJPArepositories repository;
+    public WorkJPArepositories db;
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     @Test
     public void should_return_list_of_object_driver_data() {
-        when(repository.findDriverWorkData()).thenReturn(dbDriverMock);
+        when(db.findDriverWorkData()).thenReturn(dbDriverMock);
         List<Object[]> response = sut.list();
         assertEquals(response, dbDriverMock);
     }
     @Test
     public void should_return_list_of_object_manager_data() {
-        when(repository.findManagerWorkData()).thenReturn(dbManagerMock);
+        when(db.findManagerWorkData()).thenReturn(dbManagerMock);
         List<Object[]> response = sut.listManager();
         assertEquals(response, dbManagerMock);
     }
@@ -53,11 +52,11 @@ public class JPAWorkTest {
 
         Work work = mock(Work.class);
         when(work.getAccountId()).thenReturn(accountId);
-        when(repository.findById(any())).thenReturn(Optional.of(work));
+        when(db.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
         verify(work, times(1)).setStartJourneyReal(any());
-        verify(repository).save(work);
+        verify(db).save(work);
     }
     @Test
     public void should_update_driver_start_line_real() {
@@ -67,11 +66,11 @@ public class JPAWorkTest {
 
         Work work = mock(Work.class);
         when(work.getAccountId()).thenReturn(accountId);
-        when(repository.findById(any())).thenReturn(Optional.of(work));
+        when(db.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
         verify(work, times(1)).setStartLineReal(any());
-        verify(repository).save(work);
+        verify(db).save(work);
     }
     @Test
     public void should_update_driver_end_line_real() {
@@ -85,26 +84,26 @@ public class JPAWorkTest {
         when(work.getAccountId()).thenReturn(accountId);
         when(work.getEndLineReal()).thenReturn(endTime);
         when(work.getStartJourneyReal()).thenReturn(startTime);
-        when(repository.findById(any())).thenReturn(Optional.of(work));
+        when(db.findById(any())).thenReturn(Optional.of(work));
 
         sut.updateDriverLineChecks(workId, accountId.toString(), lineCheck);
         verify(work, times(1)).setEndLineReal(any());
-        verify(repository).save(work);
+        verify(db).save(work);
     }
     @Test
     public void should_save_new_work_in_db_if_success() {
         List<Work> workList = new ArrayList<>();
         Work work = mock(Work.class);
-        when(repository.findWorkConflict(any(), any())).thenReturn(workList);
+        when(db.findWorkConflict(any(), any())).thenReturn(workList);
         sut.create(work);
-        verify(repository, times(1)).save(work);
+        verify(db, times(1)).save(work);
     }
     @Test
     public void should_throw_NotFoundWorkException_if_optional_work_return_empty() {
         String workId = requestDriverMock.workId;
         String accountId = requestDriverMock.accountId;
         LineChecks lineCheck = LineChecks.STARTJOURNEYREAL;
-        when(repository.findById(any())).thenReturn(Optional.empty());
+        when(db.findById(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundWorkException.class, () -> sut.updateDriverLineChecks(workId, accountId, lineCheck));
     }
     @Test
@@ -115,7 +114,7 @@ public class JPAWorkTest {
 
         Work work = mock(Work.class);
         when(work.getAccountId()).thenReturn(UUID.randomUUID());
-        when(repository.findById(any())).thenReturn(Optional.of(work));
+        when(db.findById(any())).thenReturn(Optional.of(work));
 
         assertThrows(ActionNotPermittedException.class, () -> sut.updateDriverLineChecks(workId, accountId, lineCheck));
     }
@@ -127,7 +126,7 @@ public class JPAWorkTest {
         Work work = mock(Work.class);
         when(work.getDaysOfTheWeek()).thenReturn(dayOfWeeks);
         workList.add(work);
-        when(repository.findWorkConflict(any(), any())).thenReturn(workList);
+        when(db.findWorkConflict(any(), any())).thenReturn(workList);
         assertThrows(LineConflictException.class, () -> sut.create(work));
     }
 }
