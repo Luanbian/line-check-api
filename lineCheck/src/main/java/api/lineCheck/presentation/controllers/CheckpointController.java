@@ -2,6 +2,7 @@ package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.interfaces.IWorkService;
+import api.lineCheck.data.utils.entities.EntityNames;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.domain.work.WorkDriver;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,8 +39,12 @@ public class CheckpointController {
     public ResponseEntity managerInfo() {
         try {
             List<WorkManager> works = service.listManagerWorks();
-            if(works.isEmpty()) return ResponseEntity.noContent().build();
-            return ResponseEntity.ok(works);
+            List<EntityNames> entityNames = service.listEntityNames();
+            List<Object> response = new ArrayList<>();
+            response.addAll(works);
+            response.addAll(entityNames);
+            if(response.isEmpty()) return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().body(response);
         }catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
