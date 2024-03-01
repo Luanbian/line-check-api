@@ -3,6 +3,7 @@ package api.lineCheck.data;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.usecase.WorkService;
+import api.lineCheck.data.utils.entities.EntityNames;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.data.utils.entities.WorkDriver;
 import api.lineCheck.data.utils.entities.WorkManager;
@@ -29,6 +30,7 @@ public class WorkServiceTest {
     public JPAWork repository;
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
+    public List<Object[]> dbEntityMock = EntityNamesDbMock.main();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     public WorkDto dtoMock = new WorkDtoMock().main();
     public WorkProps propsMock = new WorkPropsMock().main();
@@ -47,6 +49,14 @@ public class WorkServiceTest {
         verify(repository, times(1)).listManager();
         assertEquals(response.get(0).getId(), dbManagerMock.get(0)[0]);
         assertEquals(response.get(0).getStartJourneyReal(), dbManagerMock.get(0)[3]);
+    }
+    @Test
+    public void should_return_list_of_entity_names() {
+        when(repository.listEntityNames()).thenReturn(dbEntityMock);
+        List<EntityNames> response = sut.listEntityNames();
+        verify(repository, times(1)).listEntityNames();
+        assertEquals(response.get(0).getId(), dbEntityMock.get(0)[0]);
+        assertEquals(response.get(0).getOrigin(), dbEntityMock.get(0)[1]);
     }
     @Test
     public void should_update_driver_linecheck_if_success() {
