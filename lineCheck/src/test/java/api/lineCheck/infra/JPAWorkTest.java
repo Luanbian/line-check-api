@@ -6,6 +6,7 @@ import api.lineCheck.infra.interfaces.JPAs.WorkJPArepositories;
 import api.lineCheck.infra.repositories.JPAWork;
 import static org.junit.jupiter.api.Assertions.*;
 
+import api.lineCheck.mocks.EntityNamesDbMock;
 import api.lineCheck.mocks.PutRequestDriverMock;
 import api.lineCheck.mocks.WorkDriverDbMock;
 import api.lineCheck.mocks.WorkManagerDbMock;
@@ -31,6 +32,7 @@ public class JPAWorkTest {
     public WorkJPArepositories db;
     public List<Object[]> dbDriverMock = WorkDriverDbMock.main();
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
+    public List<Object[]> dbEntityNamesMock = EntityNamesDbMock.main();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     @Test
     public void should_return_list_of_object_driver_data() {
@@ -43,6 +45,12 @@ public class JPAWorkTest {
         when(db.findManagerWorkData()).thenReturn(dbManagerMock);
         List<Object[]> response = sut.listManager();
         assertEquals(response, dbManagerMock);
+    }
+    @Test
+    public void should_return_list_of_object_entity_names() {
+        when(db.findEntityNames()).thenReturn(dbEntityNamesMock);
+        List<Object[]> response = sut.listEntityNames();
+        assertEquals(response, dbEntityNamesMock);
     }
     @Test
     public void should_update_driver_start_journey_real() {
