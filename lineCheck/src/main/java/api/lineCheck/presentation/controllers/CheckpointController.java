@@ -8,6 +8,7 @@ import api.lineCheck.data.utils.entities.WorkDriver;
 import api.lineCheck.data.utils.entities.WorkManager;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import api.lineCheck.presentation.exceptions.LineConflictException;
+import api.lineCheck.presentation.helpers.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,10 +40,7 @@ public class CheckpointController {
         try {
             List<WorkManager> works = service.listManagerWorks();
             List<EntityNames> entityNames = service.listEntityNames();
-            List<Object> response = new ArrayList<>();
-            response.addAll(works);
-            response.addAll(entityNames);
-            if(response.isEmpty()) return ResponseEntity.noContent().build();
+            ResponseBody response = ResponseBody.create(works, entityNames);
             return ResponseEntity.ok().body(response);
         }catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
