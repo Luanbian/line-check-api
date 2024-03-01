@@ -2,17 +2,16 @@ package api.lineCheck.presentation;
 
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.usecase.WorkService;
+import api.lineCheck.data.utils.entities.EntityNames;
 import api.lineCheck.data.utils.entities.WorkDriver;
 import api.lineCheck.data.utils.entities.WorkManager;
-import api.lineCheck.mocks.PutRequestDriverMock;
-import api.lineCheck.mocks.WorkDriverMock;
-import api.lineCheck.mocks.WorkDtoMock;
-import api.lineCheck.mocks.WorkManagerMock;
+import api.lineCheck.mocks.*;
 import api.lineCheck.presentation.controllers.CheckpointController;
 import static org.junit.jupiter.api.Assertions.*;
 
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import api.lineCheck.presentation.exceptions.LineConflictException;
+import api.lineCheck.presentation.helpers.ResponseBody;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,6 +33,7 @@ public class CheckpointControllerTest {
     public WorkDriverMock workDriverMock = new WorkDriverMock();
     public WorkManagerMock workManagerMock = new WorkManagerMock();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
+    public EntityNamesMock entityNamesMock = new EntityNamesMock();
     public WorkDtoMock workDtoMock = new WorkDtoMock();
     @Test
     public void should_return_work_list () {
@@ -65,16 +65,13 @@ public class CheckpointControllerTest {
         List<WorkManager> workManagerListMock = new ArrayList<>();
         workManagerListMock.add(workManagerMock.main());
         when(service.listManagerWorks()).thenReturn(workManagerListMock);
+        List<EntityNames> entityNamesListMock = new ArrayList<>();
+        entityNamesListMock.add(entityNamesMock.main());
+        when(service.listEntityNames()).thenReturn(entityNamesListMock);
+        ResponseBody responseBodyMock = ResponseBody.create(workManagerListMock, entityNamesListMock);
         ResponseEntity response = sut.managerInfo();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(response.getBody(), workManagerListMock);
-    }
-    @Test
-    public void should_return_no_content_if_list_manager_works_is_empty() {
-        List<WorkManager> workManagerListMock = new ArrayList<>();
-        when(service.listManagerWorks()).thenReturn(workManagerListMock);
-        ResponseEntity response = sut.managerInfo();
-        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(response.getBody(), responseBodyMock);
     }
     @Test
     public void should_fall_in_catch_if_manager_service_throw () {
