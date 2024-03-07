@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import api.lineCheck.presentation.exceptions.LineConflictException;
+import api.lineCheck.presentation.exceptions.NotFoundWorkException;
 import api.lineCheck.presentation.helpers.ResponseBody;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -129,6 +130,39 @@ public class CheckpointControllerTest {
         String fakeWorkId = UUID.randomUUID().toString();
         ResponseEntity response = sut.updateLine(fakeWorkId, dto);
         verify(service, times(1)).update(fakeWorkId, dto);
+    }
+    @Test
+    public void should_fall_in_catch_if_service_throw_LineConflictException() {
+        WorkDto dto = workDtoMock.main();
+        String fakeWorkId = UUID.randomUUID().toString();
+        doAnswer(invocation -> {
+            throw new LineConflictException();
+        }).when(service).update(fakeWorkId, dto);
+        ResponseEntity response = sut.updateLine(fakeWorkId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Existe um conflito de horários e datas");
+    }
+    @Test
+    public void should_fall_in_catch_if_service_throw_NotFoundWorkException() {
+        WorkDto dto = workDtoMock.main();
+        String fakeWorkId = UUID.randomUUID().toString();
+        doAnswer(invocation -> {
+            throw new NotFoundWorkException();
+        }).when(service).update(fakeWorkId, dto);
+        ResponseEntity response = sut.updateLine(fakeWorkId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Linha não encontrada, verifique se o id está correto");
+    }
+    @Test
+    public void should_fall_in_catch_if_service_update_throws() {
+        WorkDto dto = workDtoMock.main();
+        String fakeWorkId = UUID.randomUUID().toString();
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).update(fakeWorkId, dto);
+        ResponseEntity response = sut.updateLine(fakeWorkId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(response.getBody(), "Erro interno do servidor");
     }
     @Test
     public void should_throw_LineConflictException_if_exists_conflict_to_create_line() {
