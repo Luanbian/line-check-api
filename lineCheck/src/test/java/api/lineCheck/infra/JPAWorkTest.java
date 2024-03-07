@@ -107,6 +107,17 @@ public class JPAWorkTest {
         verify(db, times(1)).save(work);
     }
     @Test
+    public void should_update_an_existing_work_in_db_if_success() {
+        List<Work> workList = new ArrayList<>();
+        Work work = mock(Work.class);
+        when(db.findWorkConflict(any(),any())).thenReturn(workList);
+        UUID fakeId = UUID.randomUUID();
+        when(db.findById(fakeId)).thenReturn(Optional.of(work));
+        sut.update(fakeId.toString(), work);
+        verify(work, times(1)).setAccountId(any());
+        verify(db, times(1)).save(work);
+    }
+    @Test
     public void should_throw_NotFoundWorkException_if_optional_work_return_empty() {
         String workId = requestDriverMock.workId;
         String accountId = requestDriverMock.accountId;
