@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class WorkServiceTest {
@@ -72,6 +73,13 @@ public class WorkServiceTest {
         Work work = Work.create(propsMock);
         sut.create(dtoMock);
         verify(repository, times(1)).create(work);
+    }
+    @Test
+    public void should_update_existing_work() {
+        Work work = Work.create(propsMock);
+        String fakeId = UUID.randomUUID().toString();
+        sut.update(fakeId, dtoMock);
+        verify(repository, times(1)).update(fakeId, work);
     }
     @Test
     public void should_throw_IllegalStateException_if_day_of_the_week_provide_is_invalid() {
