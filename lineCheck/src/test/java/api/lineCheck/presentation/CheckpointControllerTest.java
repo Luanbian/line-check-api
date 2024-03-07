@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class CheckpointControllerTest {
@@ -121,6 +122,13 @@ public class CheckpointControllerTest {
         ResponseEntity response = sut.createLine(dto);
         verify(service, times(1)).create(dto);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    public void should_return_ok_if_update_existing_line_with_success() {
+        WorkDto dto = workDtoMock.main();
+        String fakeWorkId = UUID.randomUUID().toString();
+        ResponseEntity response = sut.updateLine(fakeWorkId, dto);
+        verify(service, times(1)).update(fakeWorkId, dto);
     }
     @Test
     public void should_throw_LineConflictException_if_exists_conflict_to_create_line() {
