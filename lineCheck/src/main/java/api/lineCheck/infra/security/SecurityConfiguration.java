@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/manager").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/checkpoint/line").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "api/checkpoint/line").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/logistic").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/manufacture").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/service").hasRole("MANAGER")

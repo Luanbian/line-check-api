@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface IWorkService {
     Work create(WorkDto dto);
+    Work update(String id, WorkDto dto);
     List<WorkDriver> listWorks();
     List<WorkManager> listManagerWorks();
     List<EntityNames> listEntityNames();

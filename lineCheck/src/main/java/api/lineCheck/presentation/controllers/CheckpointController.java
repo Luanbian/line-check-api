@@ -72,4 +72,15 @@ public class CheckpointController {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
     }
+    @PutMapping("/line")
+    public ResponseEntity updateLine(@RequestParam("workId") String workId, @Validated @RequestBody WorkDto dto) {
+        try {
+            Work work = service.update(workId, dto);
+            return ResponseEntity.ok(work);
+        } catch (LineConflictException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
+    }
 }

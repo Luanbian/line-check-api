@@ -37,6 +37,13 @@ public class WorkService implements IWorkService {
         return work;
     }
     @Override
+    public Work update(String id, WorkDto dto) {
+        WorkProps props = convertDtoToProps(dto);
+        Work work = Work.create(props);
+        repository.update(id, work);
+        return work;
+    }
+    @Override
     public List<WorkDriver> listWorks() {
         List<Object[]> dbResponse = repository.list();
         List<WorkDriver> works = dbResponse.stream().map(MapToWorkDriver::main).toList();

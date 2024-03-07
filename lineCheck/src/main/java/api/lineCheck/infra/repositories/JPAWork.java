@@ -57,6 +57,23 @@ public class JPAWork implements IWorkRepository {
         findWorkConflicts(list, data.getDaysOfTheWeek());
         db.save(data);
     }
+    @Override
+    public void update(String workId, Work data) {
+        List<Work> list = db.findWorkConflict(data.getAccountId(), data.getStartLineModel());
+        findWorkConflicts(list, data.getDaysOfTheWeek());
+        Work work = findWorkById(workId);
+        work.setAccountId(data.getAccountId());
+        work.setServiceId(data.getServiceId());
+        work.setDaysOfTheWeek(data.getDaysOfTheWeek());
+        work.setStartJourneyModel(data.getStartJourneyModel());
+        work.setStartLineModel(data.getStartLineModel());
+        work.setEndLineModel(data.getEndLineModel());
+        work.setTimeWorkedModel(data.getTimeWorkedModel());
+        work.setLogisticId(data.getLogisticId());
+        work.setVehicleId(data.getVehicleId());
+        work.setManufactureId(data.getManufactureId());
+        db.save(work);
+    }
     private Work findWorkById(String workId) {
         UUID uuidWorkId = UUID.fromString(workId);
         Optional<Work> optionalWork = db.findById(uuidWorkId);
