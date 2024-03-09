@@ -1,15 +1,13 @@
 package api.lineCheck.infra;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.domain.work.Work;
 import api.lineCheck.infra.interfaces.JPAs.WorkJPArepositories;
 import api.lineCheck.infra.repositories.JPAWork;
 import static org.junit.jupiter.api.Assertions.*;
 
-import api.lineCheck.mocks.EntityNamesDbMock;
-import api.lineCheck.mocks.PutRequestDriverMock;
-import api.lineCheck.mocks.WorkDriverDbMock;
-import api.lineCheck.mocks.WorkManagerDbMock;
+import api.lineCheck.mocks.*;
 import api.lineCheck.presentation.exceptions.ActionNotPermittedException;
 import api.lineCheck.presentation.exceptions.LineConflictException;
 import api.lineCheck.presentation.exceptions.NotFoundWorkException;
@@ -34,6 +32,7 @@ public class JPAWorkTest {
     public List<Object[]> dbManagerMock = WorkManagerDbMock.main();
     public List<Object[]> dbEntityNamesMock = EntityNamesDbMock.main();
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
+    public KmDtoMock kmDtoMock = new KmDtoMock();
     @Test
     public void should_return_list_of_object_driver_data() {
         when(db.findDriverWorkData()).thenReturn(dbDriverMock);
@@ -115,6 +114,17 @@ public class JPAWorkTest {
         when(db.findById(fakeId)).thenReturn(Optional.of(work));
         sut.update(fakeId.toString(), work);
         verify(work, times(1)).setAccountId(any());
+        verify(db, times(1)).save(work);
+    }
+    @Test
+    public void should_save_km_in_db() {
+        UUID accountId = UUID.fromString(requestDriverMock.accountId);
+        UUID workId = UUID.fromString(requestDriverMock.workId);
+        Work work = mock(Work.class);
+        when(work.getAccountId()).thenReturn(accountId);
+        when(db.findById(workId)).thenReturn(Optional.of(work));
+        KmDto dto = kmDtoMock.main();
+        sut.insertKm(workId.toString(), accountId.toString(), dto.initialKm(), dto.finalKm());
         verify(db, times(1)).save(work);
     }
     @Test
