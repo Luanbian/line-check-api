@@ -52,6 +52,14 @@ public class JPAWork implements IWorkRepository {
         db.save(work);
     }
     @Override
+    public void insertKm(String workId, Integer initialKm, Integer finalKm) {
+        Work work = this.findWorkById(workId);
+        work.setInitKm(initialKm);
+        work.setFinalKm(finalKm);
+        work.setTotalKm(finalKm - initialKm);
+        db.save(work);
+    }
+    @Override
     public void create(Work data) {
         List<Work> list = db.findWorkConflict(data.getAccountId(), data.getStartLineModel());
         findWorkConflicts(list, data.getDaysOfTheWeek());

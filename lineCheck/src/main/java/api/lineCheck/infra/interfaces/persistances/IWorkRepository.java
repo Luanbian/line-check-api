@@ -11,6 +11,7 @@ public interface IWorkRepository {
     List<Object[]> listManager();
     List<Object[]> listEntityNames();
     void updateDriverLineChecks(String workId, String accountId, LineChecks lineCheck);
+    void insertKm(String workId, Integer initialKm, Integer finalKm);
     void create (Work data);
     void update (String workId, Work data);
 }
