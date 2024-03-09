@@ -1,5 +1,6 @@
 package api.lineCheck.data.interfaces;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.utils.entities.EntityNames;
 import api.lineCheck.domain.work.Work;
@@ -15,5 +16,5 @@ public interface IWorkService {
     List<WorkManager> listManagerWorks();
     List<EntityNames> listEntityNames();
     void updateDriverLineChecks(String workId, String accountId, String marker);
-    void insertKm(String workId, Integer initialKm, Integer finalKm);
+    void insertKm(String workId, KmDto dto);
 }

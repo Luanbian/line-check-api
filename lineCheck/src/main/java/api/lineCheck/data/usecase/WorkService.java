@@ -1,5 +1,6 @@
 package api.lineCheck.data.usecase;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.interfaces.IWorkService;
@@ -66,8 +67,8 @@ public class WorkService implements IWorkService {
         repository.updateDriverLineChecks(workId, accountId, lineCheck);
     }
     @Override
-    public void insertKm(String workId, Integer initialKm, Integer finalKm) {
-        repository.insertKm(workId, initialKm, finalKm);
+    public void insertKm(String workId, KmDto dto) {
+        repository.insertKm(workId, dto.initialKm(), dto.finalKm());
     }
     private WorkProps convertDtoToProps (WorkDto dto) {
         UUID accountUUID = UUID.fromString(dto.accountId());

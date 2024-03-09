@@ -1,5 +1,6 @@
 package api.lineCheck.presentation.controllers;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.interfaces.IWorkService;
 import api.lineCheck.data.utils.entities.EntityNames;
@@ -79,6 +80,17 @@ public class CheckpointController {
             Work work = service.update(workId, dto);
             return ResponseEntity.ok(work);
         } catch (LineConflictException | NotFoundWorkException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Erro interno do servidor");
+        }
+    }
+    @PostMapping("/km")
+    public ResponseEntity insertKm(@RequestParam(value = "workId") String workId, @Validated @RequestBody KmDto dto) {
+        try {
+            service.insertKm(workId, dto);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundWorkException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
