@@ -44,6 +44,9 @@ public class Work {
     private Timestamp endLineReal;
     private Time timeWorkedModel;
     private Time timeWorkedReal;
+    private Integer initKm;
+    private Integer finalKm;
+    private Integer totalKm;
 
     @Column(name = "logistic_id")
     private UUID logisticId;
