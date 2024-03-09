@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "api/account").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
+                        .requestMatchers(HttpMethod.GET, "api/checkpoint/km").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/manager").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.PUT, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/checkpoint/line").hasRole("MANAGER")
