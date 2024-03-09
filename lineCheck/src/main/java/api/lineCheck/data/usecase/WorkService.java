@@ -65,6 +65,10 @@ public class WorkService implements IWorkService {
         LineChecks lineCheck = LineChecks.valueOf(marker);
         repository.updateDriverLineChecks(workId, accountId, lineCheck);
     }
+    @Override
+    public void insertKm(String workId, Integer initialKm, Integer finalKm) {
+        repository.insertKm(workId, initialKm, finalKm);
+    }
     private WorkProps convertDtoToProps (WorkDto dto) {
         UUID accountUUID = UUID.fromString(dto.accountId());
         UUID driverServiceUUID = UUID.fromString(dto.serviceId());
