@@ -1,5 +1,6 @@
 package api.lineCheck.presentation;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.usecase.WorkService;
 import api.lineCheck.data.utils.entities.EntityNames;
@@ -37,6 +38,7 @@ public class CheckpointControllerTest {
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     public EntityNamesMock entityNamesMock = new EntityNamesMock();
     public WorkDtoMock workDtoMock = new WorkDtoMock();
+    public KmDtoMock kmDtoMock = new KmDtoMock();
     @Test
     public void should_return_work_list () {
         List<WorkDriver> workListMock = new ArrayList<>();
@@ -130,6 +132,52 @@ public class CheckpointControllerTest {
         String fakeWorkId = UUID.randomUUID().toString();
         ResponseEntity response = sut.updateLine(fakeWorkId, dto);
         verify(service, times(1)).update(fakeWorkId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    public void should_return_ok_if_insert_km_with_success() {
+        KmDto dto = kmDtoMock.main();
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        ResponseEntity response = sut.insertKm(workId, accountId, dto);
+        verify(service, times(1)).insertKm(workId, accountId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    }
+    @Test
+    public void should_return_bad_request_if_account_id_different_work_id_account() {
+        KmDto dto = kmDtoMock.main();
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        doAnswer(invocation -> {
+            throw new ActionNotPermittedException();
+        }).when(service).insertKm(workId, accountId, dto);
+        ResponseEntity response = sut.insertKm(workId, accountId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Ação não permitida, você não pode alterar dados de outro funcionário");
+    }
+    @Test
+    public void should_return_bad_request_if_work_not_found() {
+        KmDto dto = kmDtoMock.main();
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        doAnswer(invocation -> {
+            throw new NotFoundWorkException();
+        }).when(service).insertKm(workId, accountId, dto);
+        ResponseEntity response = sut.insertKm(workId, accountId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "Linha não encontrada, verifique se o id está correto");
+    }
+    @Test
+    public void should_return_internal_server_error_if_service_throws() {
+        KmDto dto = kmDtoMock.main();
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).insertKm(workId, accountId, dto);
+        ResponseEntity response = sut.insertKm(workId, accountId, dto);
+        assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(response.getBody(), "Erro interno do servidor");
     }
     @Test
     public void should_fall_in_catch_if_service_throw_LineConflictException() {

@@ -89,7 +89,8 @@ public class CheckpointController {
     public ResponseEntity insertKm(
             @RequestParam(value = "workId") String workId,
             @RequestParam(value = "accountId") String accountId,
-            @Validated @RequestBody KmDto dto) {
+            @Validated @RequestBody KmDto dto
+    ) {
         try {
             service.insertKm(workId,accountId, dto);
             return ResponseEntity.ok().build();
