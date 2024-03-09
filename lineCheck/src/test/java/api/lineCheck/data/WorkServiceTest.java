@@ -1,5 +1,6 @@
 package api.lineCheck.data;
 
+import api.lineCheck.core.dtos.KmDto;
 import api.lineCheck.core.dtos.WorkDto;
 import api.lineCheck.data.enums.LineChecks;
 import api.lineCheck.data.usecase.WorkService;
@@ -35,6 +36,7 @@ public class WorkServiceTest {
     public PutRequestDriverMock requestDriverMock = new PutRequestDriverMock();
     public WorkDto dtoMock = new WorkDtoMock().main();
     public WorkProps propsMock = new WorkPropsMock().main();
+    public KmDtoMock kmDtoMock = new KmDtoMock();
     @Test
     public void should_return_list_of_WorkDriver() {
         when(repository.list()).thenReturn(dbDriverMock);
@@ -80,6 +82,14 @@ public class WorkServiceTest {
         String fakeId = UUID.randomUUID().toString();
         sut.update(fakeId, dtoMock);
         verify(repository, times(1)).update(fakeId, work);
+    }
+    @Test
+    public void should_insert_km() {
+        String workId = requestDriverMock.workId;
+        String accountId = requestDriverMock.accountId;
+        KmDto dto = kmDtoMock.main();
+        sut.insertKm(workId, accountId, dto);
+        verify(repository, times(1)).insertKm(workId, accountId, dto.initialKm(), dto.finalKm());
     }
     @Test
     public void should_throw_IllegalStateException_if_day_of_the_week_provide_is_invalid() {
