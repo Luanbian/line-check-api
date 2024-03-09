@@ -52,8 +52,9 @@ public class JPAWork implements IWorkRepository {
         db.save(work);
     }
     @Override
-    public void insertKm(String workId, Integer initialKm, Integer finalKm) {
+    public void insertKm(String workId, String accountId, Integer initialKm, Integer finalKm) {
         Work work = this.findWorkById(workId);
+        this.compareWorkAccountAndLoggedAccount(work, accountId);
         work.setInitKm(initialKm);
         work.setFinalKm(finalKm);
         work.setTotalKm(finalKm - initialKm);

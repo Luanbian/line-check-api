@@ -86,11 +86,14 @@ public class CheckpointController {
         }
     }
     @PostMapping("/km")
-    public ResponseEntity insertKm(@RequestParam(value = "workId") String workId, @Validated @RequestBody KmDto dto) {
+    public ResponseEntity insertKm(
+            @RequestParam(value = "workId") String workId,
+            @RequestParam(value = "accountId") String accountId,
+            @Validated @RequestBody KmDto dto) {
         try {
-            service.insertKm(workId, dto);
+            service.insertKm(workId,accountId, dto);
             return ResponseEntity.ok().build();
-        } catch (NotFoundWorkException ex) {
+        } catch (NotFoundWorkException | ActionNotPermittedException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");

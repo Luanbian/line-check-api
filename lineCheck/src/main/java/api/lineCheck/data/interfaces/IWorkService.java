@@ -16,5 +16,5 @@ public interface IWorkService {
     List<WorkManager> listManagerWorks();
     List<EntityNames> listEntityNames();
     void updateDriverLineChecks(String workId, String accountId, String marker);
-    void insertKm(String workId, KmDto dto);
+    void insertKm(String workId, String accountId, KmDto dto);
 }
