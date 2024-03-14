@@ -1,11 +1,14 @@
 package api.lineCheck.presentation;
 
 import api.lineCheck.core.dtos.AccountDto;
+import api.lineCheck.core.dtos.DeviceTokenDto;
 import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.mocks.AccountDtoMock;
+import api.lineCheck.mocks.DeviceTokenDtoMock;
 import api.lineCheck.presentation.controllers.AccountController;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
+import api.lineCheck.presentation.exceptions.NotFoundAccountException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -24,13 +28,32 @@ public class AccountControllerTest {
     @Mock
     public IAccountService service;
     public AccountDtoMock dtoMock = new AccountDtoMock();
+    public DeviceTokenDtoMock deviceTokenDtoMock = new DeviceTokenDtoMock();
     @Test
-    public void should_return_200_if_success() {
+    public void should_return_200_if_account_register_with_success() {
         AccountDto dto = dtoMock.main();
         ResponseEntity response = sut.create(dto);
         verify(service, times(1)).register(dto);
         assertNotNull(response);
         assertEquals(200, response.getStatusCode().value());
+    }
+    @Test
+    public void should_return_200_if_insert_deviceToken_with_success() {
+        DeviceTokenDto dto = deviceTokenDtoMock.main();
+        ResponseEntity response = sut.insert(dto);
+        verify(service, times(1)).insertDeviceToken(dto);
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+    }
+    @Test
+    public void should_fall_in_catch_if_account_not_found() {
+        DeviceTokenDto dto = deviceTokenDtoMock.main();
+        doAnswer(invocation -> {
+            throw new NotFoundAccountException();
+        }).when(service).insertDeviceToken(dto);
+        ResponseEntity response = sut.insert(dto);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(response.getBody(), "usuário não encontrado, verifique se o id está correto");
     }
     @Test
     public void should_fall_in_catch_if_email_already_exists() {
@@ -63,12 +86,22 @@ public class AccountControllerTest {
         assertEquals("A função escolhida não existe no sistema", response.getBody());
     }
     @Test
-    public void should_fall_in_catch_if_service_throw() {
+    public void should_fall_in_catch_if_service_create_throw() {
         AccountDto dto = dtoMock.main();
         doAnswer(invocation -> {
             throw new Exception();
         }).when(service).register(dto);
         ResponseEntity response = sut.create(dto);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Erro interno do servidor", response.getBody());
+    }
+    @Test
+    public void should_fall_in_catch_if_service_insert_throw() {
+        DeviceTokenDto dto = deviceTokenDtoMock.main();
+        doAnswer(invocation -> {
+            throw new Exception();
+        }).when(service).insertDeviceToken(dto);
+        ResponseEntity response = sut.insert(dto);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Erro interno do servidor", response.getBody());
     }
