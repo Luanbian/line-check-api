@@ -1,11 +1,13 @@
 package api.lineCheck.data;
 
 import api.lineCheck.core.dtos.AccountDto;
+import api.lineCheck.core.dtos.DeviceTokenDto;
 import api.lineCheck.data.usecase.AccountService;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.account.Role;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.mocks.AccountDtoMock;
+import api.lineCheck.mocks.DeviceTokenDtoMock;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +24,7 @@ public class AccountServiceTest {
     @Mock
     public JPAAccount repository;
     public AccountDtoMock dtoMock = new AccountDtoMock();
+    public DeviceTokenDtoMock deviceTokenDtoMock = new DeviceTokenDtoMock();
     @Test
     public void should_be_able_to_register_account_with_correct_params() {
         AccountDto dto = dtoMock.main();
@@ -32,6 +35,12 @@ public class AccountServiceTest {
         assertEquals(dto.phone(), result.getPhone());
         assertEquals(dto.password(), result.getPassword());
         assertEquals(dto.role(), result.getRole().toString());
+    }
+    @Test
+    public void should_be_able_to_pass_deviceToken_to_repository() {
+        DeviceTokenDto dto = deviceTokenDtoMock.main();
+        sut.insertDeviceToken(dto);
+        verify(repository, times(1)).insertDeviceToken(dto.accountId(), dto.deviceToken());
     }
     @Test
     public void should_convert_string_manager_to_role_manager() {
