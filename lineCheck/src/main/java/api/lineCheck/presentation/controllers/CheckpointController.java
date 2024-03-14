@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/checkpoint")
@@ -31,7 +32,10 @@ public class CheckpointController {
         try {
             List<WorkDriver> works = service.listWorks();
             List<EntityNames> entityNames = service.listEntityNames();
-            ResponseBody response = ResponseBody.create(works, entityNames);
+            List<EntityNames> filtered = entityNames.stream()
+                    .filter(item -> Objects.equals(item.getOrigin(), "accounts"))
+                    .toList();
+            ResponseBody response = ResponseBody.create(works, filtered);
             return ResponseEntity.ok().body(response);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");

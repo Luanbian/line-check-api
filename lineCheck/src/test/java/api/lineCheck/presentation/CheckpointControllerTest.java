@@ -45,7 +45,9 @@ public class CheckpointControllerTest {
         workListMock.add(workDriverMock.main());
         when(service.listWorks()).thenReturn(workListMock);
         List<EntityNames> entityNamesListMock = new ArrayList<>();
-        entityNamesListMock.add(entityNamesMock.main());
+        EntityNames entityMocked = entityNamesMock.main();
+        entityMocked.setOrigin("accounts");
+        entityNamesListMock.add(entityMocked);
         when(service.listEntityNames()).thenReturn(entityNamesListMock);
         ResponseBody responseBodyMock = ResponseBody.create(workListMock, entityNamesListMock);
         ResponseEntity response = sut.driverInfo();
