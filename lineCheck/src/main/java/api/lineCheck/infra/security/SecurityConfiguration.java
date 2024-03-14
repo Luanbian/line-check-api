@@ -26,6 +26,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "api/account").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/account/deviceToken").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.POST, "api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/driver").hasAnyRole("DRIVER", "MANAGER")
                         .requestMatchers(HttpMethod.GET, "api/checkpoint/km").hasAnyRole("DRIVER", "MANAGER")
