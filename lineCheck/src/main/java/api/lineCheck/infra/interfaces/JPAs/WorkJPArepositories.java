@@ -27,16 +27,17 @@ public interface WorkJPArepositories extends JpaRepository<Work, UUID> {
             "INNER JOIN Manufacture man ON man.id = w.manufactureId " +
             "INNER JOIN Vehicle ve ON ve.id = w.vehicleId")
     List<Object[]> findManagerWorkData();
-    @Query("SELECT id, 'accounts' AS origin, name FROM Account ac WHERE ac.role = 1 " +
+    @Query("SELECT id, 'accounts' as origin, name, deviceToken FROM Account " +
             "UNION ALL " +
-            "SELECT id, 'logistics' AS origin, logistic AS name FROM Logistic " +
+            "SELECT id, 'logistics' AS origin, logistic AS name, '' AS deviceToken FROM Logistic " +
             "UNION ALL " +
-            "SELECT id, 'manufactures' AS origin, manufacture AS name FROM Manufacture " +
+            "SELECT id, 'manufactures' AS origin, manufacture AS name, '' AS deviceToken FROM Manufacture " +
             "UNION ALL " +
-            "SELECT id, 'services' AS origin, service AS name FROM Service " +
+            "SELECT id, 'services' AS origin, service AS name, '' AS deviceToken FROM Service " +
             "UNION ALL " +
-            "SELECT id, 'vehicles' AS origin, vehicle AS name FROM Vehicle ")
+            "SELECT id, 'vehicles' AS origin, vehicle AS name, '' AS deviceToken FROM Vehicle ")
     List<Object[]> findEntityNames();
+
     Optional<Work> findById(UUID id);
     @Query("SELECT w FROM Work w " +
             "WHERE w.accountId = :accountId " +

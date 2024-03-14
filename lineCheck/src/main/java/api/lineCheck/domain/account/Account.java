@@ -22,6 +22,7 @@ public class Account implements UserDetails {
     private String phone;
     private String password;
     private Role role;
+    private String deviceToken;
     @OneToMany(mappedBy = "account")
     private List<Work> works;
     private Account (AccountProps props) {

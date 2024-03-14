@@ -9,7 +9,8 @@ public class MapToEntityNames {
         return new EntityNames(
                 (UUID) item[0],
                 (String) item[1],
-                (String) item[2]
+                (String) item[2],
+                (String) item[3]
         );
     }
 }

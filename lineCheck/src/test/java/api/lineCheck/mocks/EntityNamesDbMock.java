@@ -14,6 +14,7 @@ public class EntityNamesDbMock {
                 UUID.randomUUID(),
                 faker.beer().name(),
                 faker.superhero().name(),
+                faker.phoneNumber().cellPhone()
         };
         data.add(item);
         return data;
