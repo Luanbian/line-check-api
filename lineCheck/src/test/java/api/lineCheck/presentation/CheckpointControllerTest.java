@@ -44,16 +44,13 @@ public class CheckpointControllerTest {
         List<WorkDriver> workListMock = new ArrayList<>();
         workListMock.add(workDriverMock.main());
         when(service.listWorks()).thenReturn(workListMock);
+        List<EntityNames> entityNamesListMock = new ArrayList<>();
+        entityNamesListMock.add(entityNamesMock.main());
+        when(service.listEntityNames()).thenReturn(entityNamesListMock);
+        ResponseBody responseBodyMock = ResponseBody.create(workListMock, entityNamesListMock);
         ResponseEntity response = sut.driverInfo();
         assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertEquals(response.getBody(), workListMock);
-    }
-    @Test
-    public void should_return_no_content_if_list_works_is_empty () {
-        List<WorkDriver> workListMock = new ArrayList<>();
-        when(service.listWorks()).thenReturn(workListMock);
-        ResponseEntity response = sut.driverInfo();
-        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(response.getBody(), responseBodyMock);
     }
     @Test
     public void should_fall_in_catch_if_driver_service_throw () {

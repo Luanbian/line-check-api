@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,8 +30,9 @@ public class CheckpointController {
     public ResponseEntity driverInfo() {
         try {
             List<WorkDriver> works = service.listWorks();
-            if (works.isEmpty()) return ResponseEntity.noContent().build();
-            return ResponseEntity.ok(works);
+            List<EntityNames> entityNames = service.listEntityNames();
+            ResponseBody response = ResponseBody.create(works, entityNames);
+            return ResponseEntity.ok().body(response);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");
         }
