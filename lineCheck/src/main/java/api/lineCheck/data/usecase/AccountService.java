@@ -1,6 +1,7 @@
 package api.lineCheck.data.usecase;
 
 import api.lineCheck.core.dtos.AccountDto;
+import api.lineCheck.core.dtos.DeviceTokenDto;
 import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.account.AccountProps;
@@ -23,6 +24,10 @@ public class AccountService implements IAccountService {
         Account account = Account.create(props);
         repository.create(account);
         return account;
+    }
+    @Override
+    public void insertDeviceToken(DeviceTokenDto dto) {
+        repository.insertDeviceToken(dto.accountId(), dto.deviceToken());
     }
     private AccountProps convertDtoToProps (AccountDto dto) {
         Role role = switch (dto.role().toUpperCase()) {
