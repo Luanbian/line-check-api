@@ -5,16 +5,16 @@ import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.domain.account.AccountProps;
 import api.lineCheck.domain.account.Role;
-import api.lineCheck.infra.repositories.JPAAccount;
+import api.lineCheck.infra.interfaces.persistances.IAccountRepository;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService implements IAccountService {
-    private final JPAAccount repository;
+    private final IAccountRepository repository;
     @Autowired
-    public AccountService(JPAAccount repository) {
+    public AccountService(IAccountRepository repository) {
         this.repository = repository;
     }
     @Override
