@@ -6,5 +6,4 @@ import api.lineCheck.domain.account.Account;
 
 public interface IAccountService {
     Account register(AccountDto dto);
-    void insertDeviceToken(DeviceTokenDto dto);
 }

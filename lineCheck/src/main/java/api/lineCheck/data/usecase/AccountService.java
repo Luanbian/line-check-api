@@ -25,10 +25,6 @@ public class AccountService implements IAccountService {
         repository.create(account);
         return account;
     }
-    @Override
-    public void insertDeviceToken(DeviceTokenDto dto) {
-        repository.insertDeviceToken(dto.accountId(), dto.deviceToken());
-    }
     private AccountProps convertDtoToProps (AccountDto dto) {
         Role role = switch (dto.role().toUpperCase()) {
             case "MANAGER" -> Role.MANAGER;

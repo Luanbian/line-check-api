@@ -9,11 +9,9 @@ public class EntityNames {
     private UUID id;
     private String origin;
     private String name;
-    private String deviceToken;
-    public EntityNames(UUID id, String origin, String name, String deviceToken) {
+    public EntityNames(UUID id, String origin, String name) {
         this.id = id;
         this.origin = origin;
         this.name = name;
-        this.deviceToken = deviceToken;
     }
 }

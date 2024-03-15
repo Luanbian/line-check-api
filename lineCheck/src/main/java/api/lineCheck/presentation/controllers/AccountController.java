@@ -1,12 +1,10 @@
 package api.lineCheck.presentation.controllers;
 
 import api.lineCheck.core.dtos.AccountDto;
-import api.lineCheck.core.dtos.DeviceTokenDto;
 import api.lineCheck.data.interfaces.IAccountService;
 import api.lineCheck.domain.account.Account;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
 import api.lineCheck.presentation.exceptions.InvalidRoleException;
-import api.lineCheck.presentation.exceptions.NotFoundAccountException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +28,6 @@ public class AccountController {
             Account account = service.register(dto);
             return ResponseEntity.ok(account);
         } catch (EmailAlreadyExistsException | PhoneAlreadyExistsException | InvalidRoleException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        } catch (Exception ex) {
-            return ResponseEntity.internalServerError().body("Erro interno do servidor");
-        }
-    }
-    @PostMapping("/deviceToken")
-    public ResponseEntity insert(@Validated @RequestBody DeviceTokenDto dto) {
-        try {
-            service.insertDeviceToken(dto);
-            return ResponseEntity.ok().build();
-        } catch (NotFoundAccountException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Erro interno do servidor");

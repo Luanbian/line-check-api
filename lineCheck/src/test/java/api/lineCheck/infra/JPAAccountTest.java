@@ -6,7 +6,6 @@ import api.lineCheck.infra.interfaces.JPAs.AccountJPArepositories;
 import api.lineCheck.infra.repositories.JPAAccount;
 import api.lineCheck.mocks.AccountPropsMock;
 import api.lineCheck.presentation.exceptions.EmailAlreadyExistsException;
-import api.lineCheck.presentation.exceptions.NotFoundAccountException;
 import api.lineCheck.presentation.exceptions.PhoneAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,24 +29,6 @@ public class JPAAccountTest {
         Account account = Account.create(propsMock.main());
         sut.create(account);
         verify(db, times(1)).save(account);
-    }
-    @Test
-    public void should_be_able_to_insert_deviceToken_in_database() {
-        Account account = mock(Account.class);
-        UUID accountId = UUID.randomUUID();
-        String deviceToken = "valid_device_token";
-        when(db.findById(accountId)).thenReturn(Optional.of(account));
-        sut.insertDeviceToken(accountId.toString(), deviceToken);
-        verify(account, times(1)).setDeviceToken(deviceToken);
-        verify(db, times(1)).save(account);
-    }
-    @Test
-    public void should_throw_Account_not_found_exception() {
-        UUID accountId = UUID.randomUUID();
-        String deviceToken = "valid_device_token";
-        when(db.findById(accountId)).thenReturn(Optional.empty());
-        assertThrows(NotFoundAccountException.class, () -> sut.insertDeviceToken(accountId.toString(), deviceToken));
-        verify(db, never()).save(any());
     }
     @Test
     public void should_throw_Email_Already_exists_exception() {
